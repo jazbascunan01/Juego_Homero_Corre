@@ -1,0 +1,312 @@
+/* Eliminamos márgenes y ponemos fondo de página negro */
+html,
+body {
+    margin: 0;
+    background: none;
+    image-rendering: pixelated;
+    /* Pixel art */
+    display: flex;
+    /* Usa flexbox para centrar */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+}
+
+body {
+    height: 100vh;
+}
+
+.container {
+    width: 1300px;
+    height: 90%;
+    position: relative;
+    /* Para mantener las posiciones relativas dentro del container */
+    overflow: hidden;
+    /* Evitar que los elementos se salgan del contenedor */
+
+}
+
+/* Homero Simpson: Animación del personaje */
+#personaje {
+    /* Tamaño fijo del área del sprite */
+    width: 56px;
+    /* Ancho exacto de cada fotograma */
+    height: 100px;
+    /* Altura del sprite según la imagen */
+
+    margin: auto;
+    background: url("images/Recurso 10000000.png") no-repeat;
+
+    /* Animación: 1 segundo, 5 pasos */
+    /*  animation: walk 0.6s steps(5) infinite; */
+    /* Animación por pasos */
+    position: relative;
+    bottom: -39%;
+}
+
+/* Asegúrate de que todas las animaciones de fondo tengan la propiedad `animation-play-state` */
+#sky,
+#clouds,
+#fondoLejano,
+#vereda,
+#montania {
+    animation-play-state: paused;
+}
+
+
+
+.quieto {
+    background: url(images/homero_parado.png) !important;
+    background-position: 0 0;
+    background-size: cover !important;
+    animation: none;
+    bottom: -39%;
+    /* Tamaño fijo del área del sprite */
+    width: 50px !important;
+    /* Ancho exacto de cada fotograma */
+    height: 100px;
+    /* Altura del sprite según la imagen */
+
+    margin: auto;
+}
+
+@keyframes walk {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -280px 0;
+    }
+
+    /* 5 fotogramas * 59px = -294px */
+}
+
+/* Establece un fondo claro para el cielo */
+#sky {
+    background: url("images/Mesa\ de\ trabajo\ cielo.png") repeat-x;
+    background-size: 1527px 100%;
+    /* Cubrir el área completa */
+    animation: movebg 30s linear infinite;
+    position: relative;
+    /* Asegura que esté detrás de todo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 500px;
+    /* Ajusta según el contenido */
+    z-index: -20;
+    /* Detrás de todo */
+    overflow: hidden;
+    /* Para evitar que algo sobresalga */
+}
+
+/* Nueva capa para las nubes más opacas */
+#clouds {
+    background: url("images/Mesa\ de\ trabajo\ nubes.png") repeat-x;
+    background-size: 1527px 100%;
+    animation: moveClouds 25s linear infinite;
+    /* Velocidad más rápida */
+    position: absolute;
+    /* Posicionarlo sobre el fondo de cielo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 500px;
+    z-index: -19;
+    /* Un índice justo encima del cielo pero debajo de otros elementos */
+    pointer-events: none;
+    /* No permitir interacciones de ratón */
+}
+
+@keyframes moveClouds {
+    0% {
+        background-position: 0px;
+    }
+
+    100% {
+        background-position: -1527px;
+    }
+}
+
+/* Animación del mar. */
+#vereda {
+    background: url("images/Recurso\ vereda.png") repeat-x;
+    background-size: 1527px 100%;
+    animation: movebgVereda 10s linear infinite;
+    position: relative;
+    top: -806px;
+    /* box-shadow: 10px 10px 45px rgb(0, 0, 0, 0.85) inset; */
+    /*  background-color: #258b69; */
+    height: 288px;
+    z-index: 2;
+}
+
+#fondoLejano {
+    background: url("images/canvas_image\ \(6\).png") repeat-x;
+    background-size: 1289px auto;
+    animation: movebgLejano 27s linear infinite;
+    position: relative;
+    top: -397px;
+    height: 289.5px;
+    z-index: -10;
+    opacity: 70%;
+}
+
+/* Asegurarse de que el fondo cubra el container */
+#sky,
+#fondoLejano,
+#montania,
+#vereda {
+    width: 100%;
+    /* Se ajusta al ancho del container */
+}
+
+
+#montania {
+    background: url("images/PineTools.com_Recurso\ mon.png") repeat-x;
+    background-size: auto 100%;
+    animation: movebgMountain 15s linear infinite;
+    position: relative;
+    top: -727px;
+    /* background-color: #258b69; */
+    height: 288px;
+    z-index: 1;
+}
+
+/* Animación del fondo lejano, más lento para dar profundidad */
+/* Animación del fondo lejano */
+@keyframes movebgLejano {
+    0% {
+        background-position: 0px;
+    }
+
+    100% {
+        background-position: -1289px;
+        /* Ajusta según el nuevo tamaño (1289 * 1.5 = 1933.5px) */
+    }
+}
+
+@keyframes movebgMountain {
+    0% {
+        background-position: 0px;
+    }
+
+    100% {
+        background-position: -1592px;
+        /* Ajusta según el tamaño de la imagen */
+    }
+}
+
+@keyframes movebgVereda {
+    0% {
+        background-position: 0px;
+        /* Ajustar también para el mar */
+    }
+
+    100% {
+        background-position: -1527px;
+    }
+}
+
+/* Animación para mover cielo*/
+@keyframes movebg {
+    0% {
+        background-position: 1527px
+    }
+
+    100% {
+        background-position: 0
+    }
+}
+
+/* OPCIONAL: Guybrush */
+#gb {
+    width: 104px;
+    height: 150px;
+    background: url("https://cdn.rawgit.com/ManzDev/cursos-assets/gh-pages/css3/monkey-guybrush.png") no-repeat;
+    animation: gbwalk 1s steps(6) infinite;
+    margin: auto;
+    position: relative;
+    top: 34px;
+    /* filter: drop-shadow(5px 5px 5px #000); */
+}
+
+.correr {
+    animation: correr 0.6s steps(5) infinite;
+}
+
+.saltar {
+    animation: saltar 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.caer {
+    animation: caer 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes gbwalk {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: -624px
+    }
+}
+
+@keyframes saltar {
+    from {
+        bottom: -39%;
+        /* Posición inicial */
+    }
+
+    to {
+        bottom: 0%;
+        /* Altura del salto */
+    }
+}
+
+@keyframes caer {
+    from {
+        bottom: 0%;
+        /* Desde el punto más alto */
+    }
+
+    to {
+        bottom: -39%;
+        /* De vuelta al suelo */
+    }
+}
+
+@keyframes correr {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -280px 0;
+    }
+
+    /* 5 fotogramas * 59px = -294px */
+}
+
+/* .enemigo {
+    position: absolute;
+    bottom: 20%;
+    width: 128px;
+    height: 92px;
+    background-color: black;
+    animation: enemigo 2.5s forwards linear;
+}
+
+
+
+@keyframes enemigo {
+    from {
+      left: 100%;
+    }
+    to {
+      left: -10%;
+    }
+} */
