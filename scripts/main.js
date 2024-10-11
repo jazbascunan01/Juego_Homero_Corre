@@ -1,39 +1,53 @@
 "use strict";
 
 let runner = new Runner();
-runner.quieto(); // Iniciar en estado quieto
+runner.quieto();
+
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight') { // Detectar la flecha derecha
-        runner.correr(); // Hacer correr al personaje cuando se presiona la flecha
+    if (event.key === 'ArrowRight') {
+        runner.correr();
     }
 
-    if (event.key === ' ' || event.key==='ArrowUp') { // Si se presiona espacio, saltar
+    if (event.key === ' ' || event.key === 'ArrowUp') {
         runner.saltar();
     }
 });
 
 document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowRight') { // Si se deja de presionar la flecha derecha
-        runner.quieto(); // Cambiar al estado de quieto
+    if (event.key === 'ArrowRight') {
+        runner.quieto();
     }
 });
 
 let enemigos = [];
-
 let vidas = 3;
 
-/* cada 50 milisegundos verifica estado del juego */
 setInterval(gameLoop, 50);
+setInterval(generarEnemigo, 5000);
 
-/* cada 1 segundo genera un enemigo */
-setInterval(generarEnemigo, 1000);
-
-/**
- * Chequear estado del runner y de los enemigos
- */
 function gameLoop() {
-    // Si el personaje choca con un enemigo pierde una vida
+    enemigos.forEach((enemigo, index) => {
+        let posEnemigo = enemigo.status();
+        let posRunner = runner.status();
+
+        if (
+            posRunner.left < posEnemigo.right &&
+            posRunner.right > posEnemigo.left &&
+            posRunner.top < posEnemigo.bottom &&
+            posRunner.bottom > posEnemigo.top
+        ) {
+            vidas -= 1;
+            console.log("¡Chocaste con Selma! Vidas restantes: " + vidas);
+
+            if (vidas === 0) {
+                console.log("¡Has perdido!");
+            }
+
+            enemigos.splice(index, 1);
+            enemigo.enemigo.remove();
+        }
+    });
 }
 
 function generarEnemigo() {

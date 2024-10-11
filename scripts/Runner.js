@@ -5,6 +5,7 @@ class Runner extends Personaje {
         this.personaje = document.getElementById("personaje");
         this.corriendo = false;
         this.moverFondo(false);
+        this.cambiarAnimacionEnemigos("quieto");
     }
 
     status() {
@@ -17,6 +18,7 @@ class Runner extends Personaje {
             this.personaje.classList.add("correr");
             this.corriendo = true;
             this.moverFondo(true);  // Comenzar a mover el fondo
+            this.cambiarAnimacionEnemigos("correr");
         }
     }
 
@@ -39,6 +41,7 @@ class Runner extends Personaje {
         this.personaje.classList.add("quieto");
         this.corriendo = false;
         this.moverFondo(false);  // Detener el fondo
+        this.cambiarAnimacionEnemigos("quieto");
     }
     caer(estabaCorriendo) {
         this.clean();
@@ -73,5 +76,47 @@ class Runner extends Personaje {
             elem.style.animationPlayState = activar ? 'running' : 'paused';
         });
     }
-
+    cambiarAnimacionEnemigos(estado) {
+        const enemigos = document.querySelectorAll('.enemigo');
+    
+        if (enemigos.length === 0) {
+            console.log("No hay enemigos aún. Reintentando...");
+            setTimeout(() => this.cambiarAnimacionEnemigos(estado), 500);
+            return;
+        }
+    
+        enemigos.forEach((enemigo) => {
+            // Limpiamos cualquier animación o intervalo anterior
+            cancelAnimationFrame(enemigo.movementFrame); 
+    
+            // Obtenemos la posición actual de Selma
+            const computedStyle = getComputedStyle(enemigo);
+            const currentPosition = parseFloat(computedStyle.left); 
+            
+            // Velocidad variable dependiendo de si Homero corre o está quieto
+            let velocidad = estado === "correr" ? 5 : 1;
+    
+            // Iniciar el movimiento usando requestAnimationFrame
+            const moverEnemigo = () => {
+                // Actualizamos la posición
+                const nuevaPosicion = parseFloat(enemigo.style.left || currentPosition) - velocidad;
+                enemigo.style.left = `${nuevaPosicion}px`;
+                
+                // Si Selma sale de la pantalla, la reiniciamos al otro lado
+                if (nuevaPosicion <= -enemigo.offsetWidth) {
+                    enemigo.style.left = `${window.innerWidth}px`;
+                }
+    
+                // Continuar animando en el siguiente frame
+                enemigo.movementFrame = requestAnimationFrame(moverEnemigo);
+            };
+    
+            moverEnemigo();  // Iniciar la animación
+    
+            // Cambiar la animación de los pies de Selma (caminar o detenerse)
+            enemigo.style.animation = `caminarSelma 1s steps(5) infinite`;
+            console.log(estado === "correr" ? "enemigo rápido" : "enemigo lento");
+        });
+    
+    }
 }

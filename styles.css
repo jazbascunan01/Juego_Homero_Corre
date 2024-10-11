@@ -45,6 +45,17 @@ body {
     bottom: -39%;
 }
 
+
+@keyframes caminarSelma {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -48.5px 0;
+    }
+}
+
 /* Asegúrate de que todas las animaciones de fondo tengan la propiedad `animation-play-state` */
 #sky,
 #clouds,
@@ -291,22 +302,45 @@ body {
     /* 5 fotogramas * 59px = -294px */
 }
 
-/* .enemigo {
+.enemigo {
     position: absolute;
-    bottom: 20%;
-    width: 128px;
-    height: 92px;
-    background-color: black;
-    animation: enemigo 2.5s forwards linear;
+    width: 48.4px;
+    height: 76px;
+    background: url(images/selma_enemigo1.png) no-repeat;
+    z-index: 30;
+    top: 429px;
+}
+.enemigoRapido{
+    animation: enemigo 15s linear infinite, caminarSelma 1s steps(5) infinite;
+}
+.enemigoLento{
+    animation: enemigo-lento 15s linear infinite, caminarSelma 1s steps(5) infinite;
+}
+@keyframes caminarSelma {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -242px 0;/* tamaño de la imagen completa de spritesheets */
+    }
 }
 
-
-
+/* Cuando Homero está corriendo */
 @keyframes enemigo {
+    from {
+      left: 100%;
+    }
+    to {
+      left: -100%;
+    }
+}
+
+/* Cuando Homero está quieto */
+@keyframes enemigo-lento {
     from {
       left: 100%;
     }
     to {
       left: -10%;
     }
-} */
+}
