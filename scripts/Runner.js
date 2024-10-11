@@ -81,7 +81,7 @@ class Runner extends Personaje {
     
         if (enemigos.length === 0) {
             console.log("No hay enemigos aún. Reintentando...");
-            setTimeout(() => this.cambiarAnimacionEnemigos(estado), 500);
+            setTimeout(() => this.cambiarAnimacionEnemigos(estado), 1000);
             return;
         }
     
