@@ -16,7 +16,9 @@ body {
 body {
     height: 100vh;
 }
-
+.contenedor{
+    overflow: hidden;
+}
 .container {
     width: 1300px;
     height: 90%;
@@ -308,7 +310,7 @@ body {
     height: 76px;
     background: url(images/selma_enemigo1.png) no-repeat;
     z-index: 30;
-    top: 429px;
+    top: 400px;
 }
 .enemigoRapido{
     animation: enemigo 15s linear infinite, caminarSelma 1s steps(5) infinite;

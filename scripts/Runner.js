@@ -94,7 +94,7 @@ class Runner extends Personaje {
             const currentPosition = parseFloat(computedStyle.left); 
             
             // Velocidad variable dependiendo de si Homero corre o está quieto
-            let velocidad = estado === "correr" ? 5 : 1;
+            let velocidad = estado === "correr" ? 4 : 2;
     
             // Iniciar el movimiento usando requestAnimationFrame
             const moverEnemigo = () => {

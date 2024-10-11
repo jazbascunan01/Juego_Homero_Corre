@@ -31,7 +31,7 @@ function gameLoop() {
         let posEnemigo = enemigo.status();
         let posRunner = runner.status();
 
-        if (
+        /* if (
             posRunner.left < posEnemigo.right &&
             posRunner.right > posEnemigo.left &&
             posRunner.top < posEnemigo.bottom &&
@@ -46,7 +46,7 @@ function gameLoop() {
 
             enemigos.splice(index, 1);
             enemigo.enemigo.remove();
-        }
+        } */
     });
 }
 
