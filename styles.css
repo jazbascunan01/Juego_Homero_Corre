@@ -15,6 +15,8 @@ body {
 
 body {
     height: 100vh;
+    background: url("images/il_fullxfull.3509413948_lwoo-Photoroom.png") no-repeat;
+    background-size: 100% auto;
 }
 .contenedor{
     overflow: hidden;
@@ -27,6 +29,15 @@ body {
     overflow: hidden;
     /* Evitar que los elementos se salgan del contenedor */
 
+}
+#vidas{
+    background: url("images/barras\ de\ estado_lleno.png")no-repeat;
+    width: 14%;
+    height: 50px;
+    background-size: contain;
+    position: absolute;
+    top: 10px;
+    left: 26px;
 }
 
 /* Homero Simpson: Animación del personaje */
@@ -311,6 +322,7 @@ body {
     background: url(images/selma_enemigo1.png) no-repeat;
     z-index: 30;
     top: 400px;
+    border-radius: 50%;
 }
 .enemigoRapido{
     animation: enemigo 15s linear infinite, caminarSelma 1s steps(5) infinite;
@@ -345,4 +357,51 @@ body {
     to {
       left: -10%;
     }
+}
+#cartel-perdiste {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro transparente */
+    color: #fff; /* Texto blanco */
+    z-index: 100; /* Para que quede encima de todo */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#cartel-perdiste.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#cartel-perdiste h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+#cartel-perdiste p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+#btn-reiniciar {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #ffcc00;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btn-reiniciar:hover {
+    background-color: #ffa500;
 }
