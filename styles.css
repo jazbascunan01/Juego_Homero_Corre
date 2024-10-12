@@ -69,31 +69,8 @@ body {
     }
 }
 
-/* Asegúrate de que todas las animaciones de fondo tengan la propiedad `animation-play-state` */
-#sky,
-#clouds,
-#fondoLejano,
-#vereda,
-#montania {
-    animation-play-state: paused;
-}
 
 
-
-.quieto {
-    background: url(images/homero_parado.png) !important;
-    background-position: 0 0;
-    background-size: cover !important;
-    animation: none;
-    bottom: -39%;
-    /* Tamaño fijo del área del sprite */
-    width: 50px !important;
-    /* Ancho exacto de cada fotograma */
-    height: 100px;
-    /* Altura del sprite según la imagen */
-
-    margin: auto;
-}
 
 @keyframes walk {
     from {
@@ -323,12 +300,7 @@ body {
     z-index: 30;
     top: 400px;
     border-radius: 5%;
-}
-.enemigoRapido{
-    animation: enemigo 15s linear infinite, caminarSelma 1s steps(5) infinite;
-}
-.enemigoLento{
-    animation: enemigo-lento 15s linear infinite, caminarSelma 1s steps(5) infinite;
+    animation: enemigo 10s linear infinite, caminarSelma 1s steps(5) infinite;
 }
 @keyframes caminarSelma {
     from {
@@ -349,15 +321,6 @@ body {
     }
 }
 
-/* Cuando Homero está quieto */
-@keyframes enemigo-lento {
-    from {
-      left: 100%;
-    }
-    to {
-      left: -10%;
-    }
-}
 #cartel-perdiste {
     display: flex;
     flex-direction: column;

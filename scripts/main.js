@@ -1,7 +1,7 @@
 "use strict";
 
 let runner = new Runner();
-runner.quieto();
+runner.correr();
 
 // Funciones para manejar los event listeners
 function agregarEventosPersonaje() {
@@ -19,17 +19,9 @@ function manejarTeclas(event) {
     if (!juegoActivo) return;  // Si el juego no está activo, ignorar los eventos
 
     if (event.type === 'keydown') {
-        if (event.key === 'ArrowRight') {
-            runner.correr();
-        }
-
         if (event.key === ' ' || event.key === 'ArrowUp') {
             runner.saltar();
         }
-    }
-
-    if (event.type === 'keyup' && event.key === 'ArrowRight') {
-        runner.quieto();
     }
 }
 
@@ -43,7 +35,6 @@ let juegoActivo = true; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
 let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
-
 // Función para actualizar la barra de vidas
 function actualizarBarraDeVidas() {
     const barraVidas = document.getElementById("vidas");
@@ -153,7 +144,7 @@ function gameLoop() {
 
 let ultimoTiempoGeneracion = Date.now(); // Marca de tiempo de la última generación
 const tiempoMinimoGeneracion = 3000;  // Aumenté el tiempo mínimo a 4 segundos
-let distanciaMinima = 800;  // Aumenté la distancia mínima entre enemigos
+let distanciaMinima = 1000;  // Aumenté la distancia mínima entre enemigos
 
 function generarEnemigo() {
     if (!juegoActivo) return;
@@ -221,7 +212,6 @@ function detenerJuego() {
     contenedor.classList.add("pausado");
     const personaje = document.getElementById("personaje");
     personaje.classList.add("pausado");
-    personaje.classList.add("quieto");
 
     // Pausar todos los enemigos y eliminarlos
     enemigos.forEach(enemigo => enemigo.enemigo.remove());
