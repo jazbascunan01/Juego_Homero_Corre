@@ -129,7 +129,7 @@ function gameLoop() {
                 vidas -= 1;
                 enemigo.haChocado = true;  // Marcamos que ha habido colisión con este enemigo
                 console.log("¡Chocaste con Selma! Vidas restantes: " + vidas);
-
+                runner.efectoPerderVida();
                 // Actualizamos la barra de vidas
                 actualizarBarraDeVidas();
 

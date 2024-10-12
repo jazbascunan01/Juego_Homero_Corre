@@ -57,7 +57,14 @@ class Runner extends Personaje {
             }
         });
     }
+    efectoPerderVida() {
+        this.personaje.classList.add("parpadeo");
 
+        // Después de 2 segundos, removemos el efecto de parpadeo
+        setTimeout(() => {
+            this.personaje.classList.remove("parpadeo");
+        }, 2000);
+    }
 
     /**
      * 
