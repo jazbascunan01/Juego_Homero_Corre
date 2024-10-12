@@ -42,7 +42,7 @@ const maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
 let juegoActivo = true; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
-let intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
+let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
 
 // Función para actualizar la barra de vidas
 function actualizarBarraDeVidas() {
@@ -151,15 +151,13 @@ function gameLoop() {
 }
 
 
-
-let ultimoTiempoGeneracion = Date.now(); // Guardar la marca de tiempo de la última generación
-const tiempoMinimoGeneracion = 3000;  // Tiempo mínimo de 3 segundos entre generación de enemigos
-let distanciaMinima = 400;  // Aumentar la distancia mínima
+let ultimoTiempoGeneracion = Date.now(); // Marca de tiempo de la última generación
+const tiempoMinimoGeneracion = 3000;  // Aumenté el tiempo mínimo a 4 segundos
+let distanciaMinima = 800;  // Aumenté la distancia mínima entre enemigos
 
 function generarEnemigo() {
     if (!juegoActivo) return;
 
-    // Verificamos si ya hay menos del máximo de enemigos en pantalla
     if (enemigos.length < maxEnemigosEnPantalla) {
         let tiempoActual = Date.now();
 
@@ -167,37 +165,47 @@ function generarEnemigo() {
         if (tiempoActual - ultimoTiempoGeneracion > tiempoMinimoGeneracion) {
             let ultimoEnemigo = enemigos[enemigos.length - 1];
 
+            // Si hay enemigos, comprobar la distancia al último generado
             if (ultimoEnemigo) {
                 let posUltimoEnemigo = ultimoEnemigo.status();
 
-                // Verificar si el último enemigo está lo suficientemente lejos del borde derecho
+                // Verificar si el último enemigo está lo suficientemente lejos
                 if (posUltimoEnemigo.right < window.innerWidth - distanciaMinima) {
-                    // Generar nuevo enemigo
-                    let enemigo = new Enemigo();
-                    enemigo.haChocado = false;
-                    enemigos.push(enemigo);
-                    document.getElementById("contenedor").appendChild(enemigo.enemigo);
-
-                    // Actualizar el tiempo de la última generación
-                    ultimoTiempoGeneracion = tiempoActual;
+                    crearNuevoEnemigo();
+                    ultimoTiempoGeneracion = tiempoActual;  // Actualizar el tiempo de la última generación
                 } else {
                     console.log("El último enemigo está demasiado cerca, esperando...");
                 }
             } else {
-                // Si no hay enemigos en pantalla, generamos uno de inmediato
-                let enemigo = new Enemigo();
-                enemigo.haChocado = false;
-                enemigos.push(enemigo);
-                document.getElementById("contenedor").appendChild(enemigo.enemigo);
-
-                // Actualizamos el tiempo de la última generación
-                ultimoTiempoGeneracion = tiempoActual;
+                // Si no hay enemigos en pantalla, generar uno de inmediato
+                crearNuevoEnemigo();
+                ultimoTiempoGeneracion = tiempoActual;  // Actualizar el tiempo de la última generación
             }
         } else {
-            console.log("Esperando a que pase más tiempo para generar otro enemigo...");
+            console.log("Esperando para generar otro enemigo...");
         }
     }
 }
+
+function crearNuevoEnemigo() {
+    let ultimoEnemigo = enemigos[enemigos.length - 1];
+
+    // Verificar si el último enemigo está lo suficientemente lejos antes de crear uno nuevo
+    if (ultimoEnemigo) {
+        let posUltimoEnemigo = ultimoEnemigo.status();
+        if (posUltimoEnemigo.right > window.innerWidth - distanciaMinima) {
+            console.log("El último enemigo está demasiado cerca. No se generará otro.");
+            return;  // No generar enemigo si están demasiado cerca
+        }
+    }
+
+    // Crear el nuevo enemigo si la distancia es suficiente
+    let enemigo = new Enemigo();
+    enemigo.haChocado = false;
+    enemigos.push(enemigo);
+    document.getElementById("contenedor").appendChild(enemigo.enemigo);
+}
+
 
 function detenerJuego() {
     clearInterval(intervalGameLoop);  // Detener el loop del juego
