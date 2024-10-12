@@ -249,4 +249,42 @@ function reiniciarJuego() {
     contenedor.classList.remove("pausado");
 }
 
+let intervalGenerarDona = setInterval(generarDona, 10000); // Generar una dona cada 10 segundos
+
+function generarDona() {
+    if (!juegoActivo) return;
+
+    let dona = new Dona(); // Crear nueva dona
+    detectarColisionConDona(dona); // Verificar colisiones
+}
+
+function detectarColisionConDona(dona) {
+    const verificarColision = () => {
+        let posDona = dona.status();
+        let posRunner = runner.status();
+
+        // Ajustar el área de colisión
+        let margenColisionDonaX = 20;
+        let margenColisionDonaY = 20;
+
+        // Verificar si Homero colisiona con la dona
+        if (
+            posRunner.left < (posDona.right - margenColisionDonaX) &&
+            posRunner.right > (posDona.left + margenColisionDonaX) &&
+            posRunner.top < (posDona.bottom - margenColisionDonaY) &&
+            posRunner.bottom > (posDona.top + margenColisionDonaY)
+        ) {
+            // Homero ha recogido la dona
+            vidas += 1; // Incrementar vidas
+            actualizarBarraDeVidas(); // Actualizar barra de vidas
+            dona.dona.remove(); // Eliminar la dona
+            return; // Salir del chequeo
+        }
+
+        // Si la dona no ha sido recogida, seguir verificando
+        requestAnimationFrame(verificarColision);
+    };
+
+    verificarColision();
+}
 

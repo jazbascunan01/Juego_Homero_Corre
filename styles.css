@@ -382,3 +382,21 @@ body {
     50% { opacity: 0; }
     100% { opacity: 1; }
 }
+.dona {
+    width: 30px; /* Ajusta el tamaño según lo necesites */
+    height: 30px; /* Ajusta el tamaño según lo necesites */
+    background-image: url('images/dona.png'); /* Cambia esta ruta a tu imagen de dona */
+    background-size: contain;
+    position: absolute;
+    animation: rotate 4s linear infinite;
+    z-index: 10; /* Asegúrate de que esté sobre otros elementos */
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
