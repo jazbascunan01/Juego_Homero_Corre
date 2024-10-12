@@ -322,7 +322,7 @@ body {
     background: url(images/selma_enemigo1.png) no-repeat;
     z-index: 30;
     top: 400px;
-    border-radius: 50%;
+    border-radius: 5%;
 }
 .enemigoRapido{
     animation: enemigo 15s linear infinite, caminarSelma 1s steps(5) infinite;
@@ -405,3 +405,8 @@ body {
 #btn-reiniciar:hover {
     background-color: #ffa500;
 }
+.pausado * {
+    animation-play-state: paused !important;
+}
+
+

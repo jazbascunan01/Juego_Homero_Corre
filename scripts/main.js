@@ -3,22 +3,38 @@
 let runner = new Runner();
 runner.quieto();
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight') {
-        runner.correr();
+// Funciones para manejar los event listeners
+function agregarEventosPersonaje() {
+    document.addEventListener('keydown', manejarTeclas);
+    document.addEventListener('keyup', manejarTeclas);
+}
+
+function quitarEventosPersonaje() {
+    document.removeEventListener('keydown', manejarTeclas);
+    document.removeEventListener('keyup', manejarTeclas);
+}
+
+// Función para manejar los eventos de teclado
+function manejarTeclas(event) {
+    if (!juegoActivo) return;  // Si el juego no está activo, ignorar los eventos
+
+    if (event.type === 'keydown') {
+        if (event.key === 'ArrowRight') {
+            runner.correr();
+        }
+
+        if (event.key === ' ' || event.key === 'ArrowUp') {
+            runner.saltar();
+        }
     }
 
-    if (event.key === ' ' || event.key === 'ArrowUp') {
-        runner.saltar();
-    }
-});
-
-document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowRight') {
+    if (event.type === 'keyup' && event.key === 'ArrowRight') {
         runner.quieto();
     }
-});
+}
 
+// Al iniciar el juego
+agregarEventosPersonaje();
 let enemigos = [];
 let vidas = 3;
 let puntos = 0; // Añadimos puntos para el sistema futuro
@@ -59,6 +75,7 @@ function detenerJuego() {
 
     // Mostrar los puntos finales (se calcularán después)
     document.getElementById("puntos-finales").textContent = `Puntos: ${puntos}`;
+    quitarEventosPersonaje();
 }
 
 // Función para reiniciar el juego
@@ -82,6 +99,7 @@ function reiniciarJuego() {
     // Reiniciar bucles
     intervalGameLoop = setInterval(gameLoop, 50);
     intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
+    agregarEventosPersonaje();
 }
 
 // Añadimos evento al botón de reiniciar
@@ -179,6 +197,58 @@ function generarEnemigo() {
             console.log("Esperando a que pase más tiempo para generar otro enemigo...");
         }
     }
+}
+
+function detenerJuego() {
+    clearInterval(intervalGameLoop);  // Detener el loop del juego
+    clearInterval(intervalGenerarEnemigo);  // Detener la generación de enemigos
+    juegoActivo = false;
+
+    // Mostrar cartel de "Perdiste"
+    const cartelPerdiste = document.getElementById("cartel-perdiste");
+    cartelPerdiste.classList.add("visible");
+
+    // Pausar todas las animaciones del contenedor y los personajes
+    const contenedor = document.getElementById("container");
+    contenedor.classList.add("pausado");
+    const personaje = document.getElementById("personaje");
+    personaje.classList.add("pausado");
+    personaje.classList.add("quieto");
+
+    // Pausar todos los enemigos y eliminarlos
+    enemigos.forEach(enemigo => enemigo.enemigo.remove());
+    enemigos = [];  // Limpiar el array de enemigos
+
+    // Mostrar los puntos finales
+    document.getElementById("puntos-finales").textContent = `Puntos: ${puntos}`;
+}
+
+
+
+function reiniciarJuego() {
+    // Reiniciar variables
+    vidas = 3;
+    puntos = 0;
+    juegoActivo = true;
+
+    // Ocultar cartel de "Perdiste"
+    const cartelPerdiste = document.getElementById("cartel-perdiste");
+    cartelPerdiste.classList.remove("visible");
+
+    // Reiniciar barra de vidas
+    actualizarBarraDeVidas();
+
+    // Limpiar enemigos de pantalla
+    enemigos.forEach(enemigo => enemigo.enemigo.remove());
+    enemigos = [];
+
+    // Reiniciar bucles
+    intervalGameLoop = setInterval(gameLoop, 50);
+    intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
+
+    // Quitar pausa de las animaciones
+    const contenedor = document.getElementById("container");
+    contenedor.classList.remove("pausado");
 }
 
 
