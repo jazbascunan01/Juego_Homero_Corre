@@ -1,16 +1,14 @@
-/* Eliminamos márgenes y ponemos fondo de página negro */
+/* ================================================================
+  ||   Eliminamos márgenes y ponemos fondo de página negro        ||
+   ================================================================ */
 html,
 body {
     margin: 0;
     background: none;
     image-rendering: pixelated;
-    /* Pixel art */
     display: flex;
-    /* Usa flexbox para centrar */
     justify-content: center;
-    /* Centra horizontalmente */
     align-items: center;
-    /* Centra verticalmente */
 }
 
 body {
@@ -18,6 +16,9 @@ body {
     background: url("images/il_fullxfull.3509413948_lwoo-Photoroom.png") no-repeat;
     background-size: 100% auto;
 }
+/* ================================================================
+  ||                  CONTENEDORES GENERALES                      ||
+   ================================================================ */
 .contenedor{
     overflow: hidden;
 }
@@ -30,6 +31,9 @@ body {
     /* Evitar que los elementos se salgan del contenedor */
 
 }
+/* ================================================================
+  ||                      BARRA DE VIDAS                          ||
+   ================================================================ */
 #vidas{
     background: url("images/barras\ de\ estado_lleno.png")no-repeat;
     width: 14%;
@@ -40,7 +44,9 @@ body {
     left: 26px;
 }
 
-/* Homero Simpson: Animación del personaje */
+/* ================================================================
+  ||         HOMERO SIMPSON: ANIMACIÓN DEL PERSONAJE              ||
+   ================================================================ */
 #personaje {
     /* Tamaño fijo del área del sprite */
     width: 56px;
@@ -50,15 +56,13 @@ body {
 
     margin: auto;
     background: url("images/Recurso 10000000.png") no-repeat;
-
-    /* Animación: 1 segundo, 5 pasos */
-    /*  animation: walk 0.6s steps(5) infinite; */
-    /* Animación por pasos */
     position: relative;
     bottom: -39%;
 }
 
-
+/* ================================================================
+  ||                     ANIMACIONES CLAVE                        ||
+   ================================================================ */
 @keyframes caminarSelma {
     from {
         background-position: 0 0;
@@ -68,9 +72,6 @@ body {
         background-position: -48.5px 0;
     }
 }
-
-
-
 
 @keyframes walk {
     from {
@@ -84,7 +85,9 @@ body {
     /* 5 fotogramas * 59px = -294px */
 }
 
-/* Establece un fondo claro para el cielo */
+/* ================================================================
+  ||          FONDO DEL JUEGO: CIELO, NUBES, VEREDA               ||
+   ================================================================ */
 #sky {
     background: url("images/Mesa\ de\ trabajo\ cielo.png") repeat-x;
     background-size: 1527px 100%;
@@ -96,7 +99,6 @@ body {
     left: 0;
     width: 100%;
     height: 500px;
-    /* Ajusta según el contenido */
     z-index: -20;
     /* Detrás de todo */
     overflow: hidden;
@@ -120,7 +122,9 @@ body {
     pointer-events: none;
     /* No permitir interacciones de ratón */
 }
-
+/* ================================================================
+  ||           MOVIMIENTO DEL FONDO Y ELEMENTOS                   ||
+   ================================================================ */
 @keyframes moveClouds {
     0% {
         background-position: 0px;
@@ -131,15 +135,15 @@ body {
     }
 }
 
-/* Animación del mar. */
+/* ================================================================
+  ||                   FONDO LEJANO Y VEREDA                      ||
+   ================================================================ */
 #vereda {
     background: url("images/Recurso\ vereda.png") repeat-x;
     background-size: 1527px 100%;
     animation: movebgVereda 10s linear infinite;
     position: relative;
     top: -806px;
-    /* box-shadow: 10px 10px 45px rgb(0, 0, 0, 0.85) inset; */
-    /*  background-color: #258b69; */
     height: 288px;
     z-index: 2;
 }
@@ -222,18 +226,9 @@ body {
     }
 }
 
-/* OPCIONAL: Guybrush */
-#gb {
-    width: 104px;
-    height: 150px;
-    background: url("https://cdn.rawgit.com/ManzDev/cursos-assets/gh-pages/css3/monkey-guybrush.png") no-repeat;
-    animation: gbwalk 1s steps(6) infinite;
-    margin: auto;
-    position: relative;
-    top: 34px;
-    /* filter: drop-shadow(5px 5px 5px #000); */
-}
-
+/* ================================================================
+  ||               CORRER, SALTAR Y CAER                          ||
+   ================================================================ */
 .correr {
     animation: correr 0.6s steps(5) infinite;
 }
@@ -292,6 +287,9 @@ body {
     /* 5 fotogramas * 59px = -294px */
 }
 
+/* ================================================================
+  ||                        ENEMIGO                               ||
+   ================================================================ */
 .enemigo {
     position: absolute;
     width: 48.4px;
@@ -311,7 +309,6 @@ body {
     }
 }
 
-/* Cuando Homero está corriendo */
 @keyframes enemigo {
     from {
       left: 100%;
@@ -320,7 +317,9 @@ body {
       left: -100%;
     }
 }
-
+/* ================================================================
+  ||          CARTEL DE "PERDISTE AL FINAL DEL JUEGO"             ||
+   ================================================================ */
 #cartel-perdiste {
     display: flex;
     flex-direction: column;
@@ -368,6 +367,9 @@ body {
 #btn-reiniciar:hover {
     background-color: #ffa500;
 }
+/* ================================================================
+  ||          ELEMENTOS PAUSADOS, PARPADEO Y LA DONA              ||
+   ================================================================ */
 .pausado * {
     animation-play-state: paused !important;
 }
@@ -383,13 +385,13 @@ body {
     100% { opacity: 1; }
 }
 .dona {
-    width: 30px; /* Ajusta el tamaño según lo necesites */
-    height: 30px; /* Ajusta el tamaño según lo necesites */
-    background-image: url('images/dona.png'); /* Cambia esta ruta a tu imagen de dona */
+    width: 30px;
+    height: 30px;
+    background-image: url('images/dona.png');
     background-size: contain;
     position: absolute;
     animation: rotate 4s linear infinite;
-    z-index: 10; /* Asegúrate de que esté sobre otros elementos */
+    z-index: 10;
 }
 @keyframes rotate {
     from {
