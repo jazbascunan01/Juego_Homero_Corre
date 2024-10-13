@@ -49,13 +49,13 @@ body {
    ================================================================ */
 #personaje {
     /* Tamaño fijo del área del sprite */
-    width: 56px;
+    width: 53.5px;
     /* Ancho exacto de cada fotograma */
     height: 100px;
     /* Altura del sprite según la imagen */
 
     margin: auto;
-    background: url("images/Recurso 10000000.png") no-repeat;
+    background: url("images/homero\ caminando3.png") no-repeat;
     position: relative;
     bottom: -39%;
 }
