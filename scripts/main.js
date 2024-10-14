@@ -190,8 +190,11 @@ function crearNuevoEnemigo() {
         }
     }
 
+    // Seleccionar aleatoriamente el tipo de enemigo
+    const tipoEnemigo = Math.random() < 0.5 ? 'selma' : 'abuelo';
+
     // Crear el nuevo enemigo si la distancia es suficiente
-    let enemigo = new Enemigo();
+    let enemigo = new Enemigo(tipoEnemigo);
     enemigo.haChocado = false;
     enemigos.push(enemigo);
     document.getElementById("contenedor").appendChild(enemigo.enemigo);

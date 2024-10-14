@@ -454,3 +454,36 @@ body {
         transform: rotate(-360deg);
     }
 }
+/* ================================================================
+  ||              ABUELO SIMPSON: ENEMIGO NUEVO                  ||
+   ================================================================ */
+   .abuelo {
+    position: absolute;
+    width: 45px; /* Ajusta según el tamaño del sprite */
+    height: 76px;  /* Ajusta según el tamaño del sprite */
+    background: url("images/abuelo_enemigo.png") no-repeat;
+    z-index: 30;
+    top: 400px;
+    border-radius: 5%;
+    animation: abueloAnimacion 10s linear infinite, caminarAbuelo 1s steps(4) infinite;
+}
+
+@keyframes caminarAbuelo {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -180px 0; /* Tamaño de la imagen completa */
+    }
+}
+
+@keyframes abueloAnimacion {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: -100%;
+    }
+}
