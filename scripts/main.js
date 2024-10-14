@@ -258,7 +258,20 @@ function reiniciarJuego() {
         intervalCronometro = setInterval(actualizarCronometro, 1000);
 }
 
-let intervalGenerarDona = setInterval(generarDona, 10000); // Generar una dona cada 10 segundos
+let intervalGenerarObjeto = setInterval(generarObjetoAleatorio, 10000); // Generar un objeto cada 10 segundos
+function generarObjetoAleatorio() {
+    if (!juegoActivo) return;
+
+    // Seleccionar aleatoriamente entre dona y taco, con más probabilidad de generar un taco
+    const esDona = Math.random() < 0.3; // 30% de probabilidad para la dona
+
+    if (esDona) {
+        generarDona();
+    } else {
+        generarTaco();
+    }
+}
+
 
 function generarDona() {
     if (!juegoActivo) return;
@@ -329,3 +342,40 @@ function actualizarCronometro() {
     document.getElementById("tiempo-restante").textContent = tiempoRestante;
 }
 
+/* TACO */
+function generarTaco() {
+    if (!juegoActivo) return;
+
+    let taco = new Taco(); // Crear un nuevo taco
+    detectarColisionConTaco(taco); // Verificar colisiones
+}
+
+function detectarColisionConTaco(taco) {
+    const verificarColision = () => {
+        let posTaco = taco.status();
+        let posRunner = runner.status();
+
+        // Ajustar el área de colisión
+        let margenColisionTacoX = 20;
+        let margenColisionTacoY = 20;
+
+        // Verificar si Homero colisiona con el taco
+        if (
+            posRunner.left < (posTaco.right - margenColisionTacoX) &&
+            posRunner.right > (posTaco.left + margenColisionTacoX) &&
+            posRunner.top < (posTaco.bottom - margenColisionTacoY) &&
+            posRunner.bottom > (posTaco.top + margenColisionTacoY)
+        ) {
+            // Homero ha recogido el taco
+            tiempoRestante += 15; // Incrementar el tiempo en 5 segundos
+            actualizarCronometro(); // Actualizar el cronómetro
+            taco.taco.remove(); // Eliminar el taco
+            return; // Salir del chequeo
+        }
+
+        // Si el taco no ha sido recogido, seguir verificando
+        requestAnimationFrame(verificarColision);
+    };
+
+    verificarColision();
+}

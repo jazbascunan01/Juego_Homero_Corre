@@ -504,3 +504,18 @@ body {
     height: 50px;
     margin-right: 10px;
 }
+/* TACO */
+.taco {
+    width: 30px; /* Ancho del taco */
+    height: 30px; /* Alto del taco */
+    background-image: url("images/taco.png"); /* Ruta de la imagen del taco */
+    background-size: cover; /* Ajustar la imagen para que cubra el contenedor */
+    position: absolute; /* Posición absoluta para poder mover el taco */
+    z-index: 35;
+    animation: movimientoTaco 1s infinite;
+}
+@keyframes movimientoTaco {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); } /* El taco sube 20px */
+    100% { transform: translateY(0); }
+}
