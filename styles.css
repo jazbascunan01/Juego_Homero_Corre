@@ -16,12 +16,14 @@ body {
     background: url("images/il_fullxfull.3509413948_lwoo-Photoroom.png") no-repeat;
     background-size: 100% auto;
 }
+
 /* ================================================================
   ||                  CONTENEDORES GENERALES                      ||
    ================================================================ */
-.contenedor{
+.contenedor {
     overflow: hidden;
 }
+
 .container {
     width: 1300px;
     height: 90%;
@@ -31,10 +33,11 @@ body {
     /* Evitar que los elementos se salgan del contenedor */
 
 }
+
 /* ================================================================
   ||                      BARRA DE VIDAS                          ||
    ================================================================ */
-#vidas{
+#vidas {
     background: url("images/barras\ de\ estado_lleno.png")no-repeat;
     width: 14%;
     height: 50px;
@@ -122,6 +125,7 @@ body {
     pointer-events: none;
     /* No permitir interacciones de ratón */
 }
+
 /* ================================================================
   ||           MOVIMIENTO DEL FONDO Y ELEMENTOS                   ||
    ================================================================ */
@@ -233,11 +237,40 @@ body {
     animation: correr 0.6s steps(5) infinite;
 }
 
-.saltar {
-    animation: saltar 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+#personaje.saltar {
+    background: url("images/salto23.png") no-repeat;
+    background-size: cover 100%;
+    width: 65px !important;
+    height: 95px !important;
+    animation: saltarMovimiento 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, saltarFotogramas 600ms steps(4) infinite;
+}
+
+
+@keyframes saltarMovimiento {
+    from {
+        bottom: -39%;
+        /* Posición inicial */
+    }
+
+    to {
+        bottom: 0%;
+        /* Altura del salto */
+    }
+}
+
+@keyframes saltarFotogramas {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -275px 0;
+        /* 6 fotogramas, 53.5px cada uno */
+    }
 }
 
 .caer {
+    background: url("images/homero\ caminando3.png") !important;
     animation: caer 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
@@ -300,23 +333,28 @@ body {
     border-radius: 5%;
     animation: enemigo 10s linear infinite, caminarSelma 1s steps(5) infinite;
 }
+
 @keyframes caminarSelma {
     from {
         background-position: 0 0;
     }
+
     to {
-        background-position: -242px 0;/* tamaño de la imagen completa de spritesheets */
+        background-position: -242px 0;
+        /* tamaño de la imagen completa de spritesheets */
     }
 }
 
 @keyframes enemigo {
     from {
-      left: 100%;
+        left: 100%;
     }
+
     to {
-      left: -100%;
+        left: -100%;
     }
 }
+
 /* ================================================================
   ||          CARTEL DE "PERDISTE AL FINAL DEL JUEGO"             ||
    ================================================================ */
@@ -330,9 +368,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro transparente */
-    color: #fff; /* Texto blanco */
-    z-index: 100; /* Para que quede encima de todo */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo oscuro transparente */
+    color: #fff;
+    /* Texto blanco */
+    z-index: 100;
+    /* Para que quede encima de todo */
     font-family: 'Comic Sans MS', cursive, sans-serif;
     text-align: center;
     opacity: 0;
@@ -367,6 +408,7 @@ body {
 #btn-reiniciar:hover {
     background-color: #ffa500;
 }
+
 /* ================================================================
   ||          ELEMENTOS PAUSADOS, PARPADEO Y LA DONA              ||
    ================================================================ */
@@ -380,10 +422,19 @@ body {
 }
 
 @keyframes parpadeo {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
+
 .dona {
     width: 30px;
     height: 30px;
@@ -393,6 +444,7 @@ body {
     animation: rotate 4s linear infinite;
     z-index: 10;
 }
+
 @keyframes rotate {
     from {
         transform: rotate(0deg);

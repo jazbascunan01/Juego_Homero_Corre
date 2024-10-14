@@ -51,8 +51,11 @@ class Runner extends Personaje {
     }
 
     clean() {
-        this.personaje.classList.remove("correr", "saltar", "caer");
-        this.personaje.removeEventListener("animationend", () => {});
+        this.personaje.classList.remove("correr"); 
+        this.personaje.classList.remove("saltar");
+        this.personaje.classList.remove("caer"); 
+        //this.personaje.style.background = ""; // Elimina la imagen de fondo
+        this.personaje.removeEventListener("animationend", () => {}); 
     }
     
 
