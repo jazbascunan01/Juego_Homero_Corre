@@ -6,6 +6,8 @@ class Runner extends Personaje {
         this.corriendo = true;  // El personaje comienza corriendo
         /* this.moverFondo(true);  // El fondo comienza a moverse */
         /* this.cambiarAnimacionEnemigos("correr");  // Cambiar animación a correr */
+        this.estaInmune = false;
+        this.runnerElement = document.getElementById("personaje");
     }
 
     status() {
@@ -42,6 +44,7 @@ class Runner extends Personaje {
     
 
     efectoPerderVida() {
+        if (this.estaInmune) return; // Si el personaje es inmune, no pierde vida
         this.personaje.classList.add("parpadeo");
 
         // Después de 2 segundos, removemos el efecto de parpadeo
@@ -50,6 +53,28 @@ class Runner extends Personaje {
         }, 2000);
     }
 
+    efectoInmunidad() {
+        if (!this.runnerElement) {
+            console.error("runnerElement no está definido");
+            return;
+        }
+
+        if (this.estaInmune) return; // Si ya es inmune, no hacer nada
+
+        this.estaInmune = true; // Activar la inmunidad
+        this.runnerElement.classList.add("inmunidad"); // Agregar una clase para el efecto visual (animación o brillo)
+
+        // Desactivar la inmunidad después de 5 segundos
+        setTimeout(() => {
+            this.estaInmune = false;
+            this.runnerElement.classList.remove("inmunidad"); // Quitar la clase de efecto visual
+        }, 10000);
+    }
+    quitarEfectoInmunidad() {
+        if (!this.runnerElement) return;
+        this.runnerElement.classList.remove("inmunidad");
+    }
+    
     clean() {
         this.personaje.classList.remove("correr"); 
         this.personaje.classList.remove("saltar");

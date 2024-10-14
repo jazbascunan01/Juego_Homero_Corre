@@ -97,48 +97,49 @@ function reiniciarJuego() {
 document.getElementById("btn-reiniciar").addEventListener("click", reiniciarJuego);
 
 function gameLoop() {
-    if (!juegoActivo) return;  // Detener lógica si el juego no está activo
+    if (!juegoActivo) return;
 
     enemigos.forEach((enemigo, index) => {
+        detectarColisionConEnemigo(enemigo);
+
         let posEnemigo = enemigo.status();
-        let posRunner = runner.status();
-
-        // Ajustamos aún más el área de colisión
-        let margenColisionEnemigoX = 15; // Reducimos más el área de colisión en los laterales del enemigo
-        let margenColisionEnemigoY = 20; // Reducimos más el área de colisión en la parte superior e inferior del enemigo
-        let margenColisionRunnerX = 10; // También ajustamos el área de colisión de Homero
-        let margenColisionRunnerY = 15;
-
-        // Verificamos si Homero colisiona con Selma, solo si no está en el aire
-        if (!runner.estaSaltando &&
-            posRunner.left < (posEnemigo.right - margenColisionEnemigoX) &&
-            posRunner.right > (posEnemigo.left + margenColisionEnemigoX) &&
-            posRunner.top < (posEnemigo.bottom - margenColisionEnemigoY) &&
-            posRunner.bottom > (posEnemigo.top + margenColisionEnemigoY)
-        ) {
-            if (!enemigo.haChocado) {  // Si no ha chocado aún con este enemigo
-                vidas -= 1;
-                enemigo.haChocado = true;  // Marcamos que ha habido colisión con este enemigo
-                console.log("¡Chocaste con Selma! Vidas restantes: " + vidas);
-                runner.efectoPerderVida();
-                // Actualizamos la barra de vidas
-                actualizarBarraDeVidas();
-
-                if (vidas === 0) {
-                    console.log("¡Has perdido!");
-                    detenerJuego();  // Detenemos el juego cuando las vidas llegan a 0
-                }
-            }
-        } else {
-            enemigo.haChocado = false;  // Resetear cuando ya no colisiona
-        }
-
-        // Si el enemigo ya salió de la pantalla, lo eliminamos
         if (posEnemigo.right < 0) {
             enemigos.splice(index, 1);
             enemigo.enemigo.remove();
         }
     });
+}
+
+function detectarColisionConEnemigo(enemigo) {
+    let posEnemigo = enemigo.status();
+    let posRunner = runner.status();
+
+    let margenColisionEnemigoX = 15;
+    let margenColisionEnemigoY = 20;
+    let margenColisionRunnerX = 10;
+    let margenColisionRunnerY = 15;
+
+    if (
+        !runner.estaSaltando &&
+        posRunner.left < (posEnemigo.right - margenColisionEnemigoX) &&
+        posRunner.right > (posEnemigo.left + margenColisionEnemigoX) &&
+        posRunner.top < (posEnemigo.bottom - margenColisionEnemigoY) &&
+        posRunner.bottom > (posEnemigo.top + margenColisionEnemigoY)
+    ) {
+        if (!enemigo.haChocado && !estaInmune) {
+            vidas -= 1;
+            enemigo.haChocado = true;
+            console.log("¡Chocaste con un enemigo! Vidas restantes: " + vidas);
+            runner.efectoPerderVida();
+            actualizarBarraDeVidas();
+
+            if (vidas === 0) {
+                detenerJuego();
+            }
+        }
+    } else {
+        enemigo.haChocado = false;
+    }
 }
 
 
@@ -262,14 +263,64 @@ let intervalGenerarObjeto = setInterval(generarObjetoAleatorio, 10000); // Gener
 function generarObjetoAleatorio() {
     if (!juegoActivo) return;
 
-    // Seleccionar aleatoriamente entre dona y taco, con más probabilidad de generar un taco
-    const esDona = Math.random() < 0.3; // 30% de probabilidad para la dona
-
-    if (esDona) {
-        generarDona();
-    } else {
+    // Probabilidades: 70% taco, 20% cerveza Duff, 10% dona
+    const random = Math.random();
+    if (random < 0.7) {
         generarTaco();
+    } else if (random < 0.9) {
+        generarCervezaDuff();
+    } else {
+        generarDona();
     }
+}
+function generarCervezaDuff() {
+    if (!juegoActivo) return;
+
+    let cerveza = new CervezaDuff(); // Crear nueva cerveza Duff
+    alert("cerveza");
+    detectarColisionConCervezaDuff(cerveza); // Verificar colisiones
+}
+function detectarColisionConCervezaDuff(cerveza) {
+    const verificarColision = () => {
+        let posCerveza = cerveza.status();
+        let posRunner = runner.status();
+
+        // Ajustar el área de colisión
+        let margenColisionCervezaX = 20;
+        let margenColisionCervezaY = 20;
+
+        // Verificar si Homero colisiona con la cerveza Duff
+        if (
+            posRunner.left < (posCerveza.right - margenColisionCervezaX) &&
+            posRunner.right > (posCerveza.left + margenColisionCervezaX) &&
+            posRunner.top < (posCerveza.bottom - margenColisionCervezaY) &&
+            posRunner.bottom > (posCerveza.top + margenColisionCervezaY)
+        ) {
+            // Homero ha recogido la cerveza Duff
+            activarInmunidad();
+            cerveza.remove(); // Eliminar la cerveza Duff
+            return; // Salir del chequeo
+        }
+
+        // Si la cerveza Duff no ha sido recogida, seguir verificando
+        requestAnimationFrame(verificarColision);
+    };
+
+    verificarColision();
+}
+
+let estaInmune = false;
+function activarInmunidad() {
+    if (estaInmune) return; // No activar si ya está inmune
+
+    estaInmune = true;
+    runner.efectoInmunidad(); // Cambiar la apariencia de Homero para indicar inmunidad
+
+    // Desactivar la inmunidad después de 5 segundos
+    setTimeout(() => {
+        estaInmune = false;
+        runner.quitarEfectoInmunidad(); // Volver a la apariencia normal
+    }, 5000);
 }
 
 
@@ -336,6 +387,8 @@ function actualizarCronometro() {
     } else if (tiempoRestante === 0) {
         imagenCronometro.src = "images/0seg.png";
         detenerJuego(); // Detener el juego cuando el tiempo llega a 0
+    }else if (tiempoRestante >=30) {
+        imagenCronometro.src = "images/30seg.png";
     }
 
     // Actualizar el número de segundos en pantalla
@@ -367,7 +420,7 @@ function detectarColisionConTaco(taco) {
             posRunner.bottom > (posTaco.top + margenColisionTacoY)
         ) {
             // Homero ha recogido el taco
-            tiempoRestante += 15; // Incrementar el tiempo en 5 segundos
+            tiempoRestante += 30; // Incrementar el tiempo en 5 segundos
             actualizarCronometro(); // Actualizar el cronómetro
             taco.taco.remove(); // Eliminar el taco
             return; // Salir del chequeo

@@ -504,6 +504,9 @@ body {
     height: 50px;
     margin-right: 10px;
 }
+#tiempo-restante, #segundos{
+    color: black;
+}
 /* TACO */
 .taco {
     width: 30px; /* Ancho del taco */
@@ -518,4 +521,39 @@ body {
     0% { transform: translateY(0); }
     50% { transform: translateY(-20px); } /* El taco sube 20px */
     100% { transform: translateY(0); }
+}
+/* CERVEZA DUFF */
+/* Estilo para la cerveza Duff */
+.cerveza-duff {
+    position: absolute;
+    width: 30px;
+    height: 50px;
+    background-image: url('images/cerveza_duff.png');
+    background-size: cover;
+    z-index: 35;
+    animation: entradaSacudida 1.5s ease-in-out infinite;
+}
+@keyframes entradaSacudida {
+    0% {
+        transform: rotate(0deg); /* Inicia desde el lado derecho */
+    }
+    15% {
+        transform:  rotate(-10deg); /* Se inclina a la izquierda */
+    }
+    30% {
+        transform:  rotate(10deg); /* Se inclina a la derecha */
+    }
+    45% {
+        transform: rotate(-5deg); /* Vuelve a la izquierda levemente */
+    }
+    60% {
+        transform: rotate(5deg); /* Vuelve a la derecha levemente */
+    }
+    100% {
+        transform: rotate(0deg); /* Se coloca en su posición final */
+    }
+}
+/* Efecto de inmunidad para Homero */
+#personaje.inmunidad {
+    filter: brightness(1.3) drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
 }
