@@ -291,3 +291,45 @@ function detectarColisionConDona(dona) {
     verificarColision();
 }
 
+/* CRONOMETRO */
+// Variables para el temporizador
+let tiempoRestante = 30;
+let intervalCronometro = setInterval(actualizarCronometro, 1000);
+
+// Función para actualizar el cronómetro
+function actualizarCronometro() {
+    if (!juegoActivo) return;
+
+    tiempoRestante--;
+
+    // Actualizar la imagen del cronómetro cada 5 segundos
+    let imagenCronometro = document.getElementById("imagen-cronometro");
+    if (tiempoRestante === 25) {
+        imagenCronometro.src = "images/25seg.png";
+    } else if (tiempoRestante === 20) {
+        imagenCronometro.src = "images/20seg.png";
+    } else if (tiempoRestante === 15) {
+        imagenCronometro.src = "images/15seg.png";
+    } else if (tiempoRestante === 10) {
+        imagenCronometro.src = "images/10seg.png";
+    } else if (tiempoRestante === 5) {
+        imagenCronometro.src = "images/5seg.png";
+    } else if (tiempoRestante === 0) {
+        imagenCronometro.src = "images/0seg.png";
+        detenerJuego(); // Detener el juego cuando el tiempo llega a 0
+    }
+
+    // Actualizar el número de segundos en pantalla
+    document.getElementById("tiempo-restante").textContent = tiempoRestante;
+}
+
+// Reiniciar el cronómetro al reiniciar el juego
+function reiniciarJuego() {
+    // Código existente...
+
+    // Reiniciar cronómetro
+    tiempoRestante = 30;
+    document.getElementById("imagen-cronometro").src = "images/cronometro_30.png";
+    document.getElementById("tiempo-restante").textContent = tiempoRestante;
+    intervalCronometro = setInterval(actualizarCronometro, 1000);
+}
