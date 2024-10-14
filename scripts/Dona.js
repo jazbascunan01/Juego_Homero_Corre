@@ -3,7 +3,7 @@ class Dona {
         this.dona = document.createElement("div");
         this.dona.classList.add("dona");
         this.posX = window.innerWidth; // Inicia fuera de la pantalla
-        this.posY = (Math.random() * (window.innerHeight * 0.2)) + (window.innerHeight * 0.5);
+        this.posY = (Math.random() * (window.innerHeight * 0.1)) + (window.innerHeight * 0.5);
         this.dona.style.left = `${this.posX}px`;
         this.dona.style.top = `${this.posY}px`;
         document.getElementById("contenedor").appendChild(this.dona);
