@@ -277,7 +277,6 @@ function generarCervezaDuff() {
     if (!juegoActivo) return;
 
     let cerveza = new CervezaDuff(); // Crear nueva cerveza Duff
-    alert("cerveza");
     detectarColisionConCervezaDuff(cerveza); // Verificar colisiones
 }
 function detectarColisionConCervezaDuff(cerveza) {
