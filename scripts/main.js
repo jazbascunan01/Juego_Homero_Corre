@@ -250,6 +250,12 @@ function reiniciarJuego() {
     // Quitar pausa de las animaciones
     const contenedor = document.getElementById("container");
     contenedor.classList.remove("pausado");
+
+        // Reiniciar cronómetro
+        tiempoRestante = 30;
+        document.getElementById("imagen-cronometro").src = "images/30seg.png";
+        document.getElementById("tiempo-restante").textContent = tiempoRestante;
+        intervalCronometro = setInterval(actualizarCronometro, 1000);
 }
 
 let intervalGenerarDona = setInterval(generarDona, 10000); // Generar una dona cada 10 segundos
@@ -323,13 +329,3 @@ function actualizarCronometro() {
     document.getElementById("tiempo-restante").textContent = tiempoRestante;
 }
 
-// Reiniciar el cronómetro al reiniciar el juego
-function reiniciarJuego() {
-    // Código existente...
-
-    // Reiniciar cronómetro
-    tiempoRestante = 30;
-    document.getElementById("imagen-cronometro").src = "images/cronometro_30.png";
-    document.getElementById("tiempo-restante").textContent = tiempoRestante;
-    intervalCronometro = setInterval(actualizarCronometro, 1000);
-}
