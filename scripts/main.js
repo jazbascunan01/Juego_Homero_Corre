@@ -2,6 +2,7 @@
 
 let runner = new Runner();
 runner.correr();
+const puntosSistema = new Puntos(); // Instancia de la clase Puntos
 
 // Funciones para manejar los event listeners
 function agregarEventosPersonaje() {
@@ -64,8 +65,7 @@ function detenerJuego() {
     const cartelPerdiste = document.getElementById("cartel-perdiste");
     cartelPerdiste.classList.add("visible");
 
-    // Mostrar los puntos finales (se calcularán después)
-    document.getElementById("puntos-finales").textContent = `Puntos: ${puntos}`;
+    document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
     quitarEventosPersonaje();
 }
 
@@ -73,7 +73,7 @@ function detenerJuego() {
 function reiniciarJuego() {
     // Reiniciar variables
     vidas = 3;
-    puntos = 0;  // Reiniciar puntos
+    puntosSistema.puntos = 0;  // Reiniciar puntos
     juegoActivo = true;
 
     // Ocultar cartel de "Perdiste"
@@ -95,15 +95,36 @@ function reiniciarJuego() {
 
 // Añadimos evento al botón de reiniciar
 document.getElementById("btn-reiniciar").addEventListener("click", reiniciarJuego);
+let intervalSumarPuntosPorTiempo = setInterval(sumarPuntosPorTiempo, 1000); // Sumar puntos cada segundo
 
+function sumarPuntosPorTiempo() {
+    if (!juegoActivo) return;
+
+    puntosSistema.aumentar(1);  // Añadir 1 punto por cada segundo
+    console.log("Puntos por tiempo: " + puntosSistema.puntos);
+}
 function gameLoop() {
     if (!juegoActivo) return;
 
+    // Inicializar el estado de colisión
+    let haColisionado = false;
+
     enemigos.forEach((enemigo, index) => {
-        detectarColisionConEnemigo(enemigo);
+        // Detectar colisiones con el enemigo
+        if (detectarColisionConEnemigo(enemigo)) {
+            haColisionado = true; // Marcar que hubo colisión
+        }
 
         let posEnemigo = enemigo.status();
+
+        // Si el enemigo sale de la pantalla
         if (posEnemigo.right < 0) {
+            // Solo sumar puntos si no hubo colisión
+            if (!enemigo.haChocado && !haColisionado) {
+                puntosSistema.aumentar(10);  // Añadir puntos solo si no hubo colisión
+                console.log("¡Puntos por esquivar enemigo!");
+            }
+            // Eliminar el enemigo del array y del DOM
             enemigos.splice(index, 1);
             enemigo.enemigo.remove();
         }
@@ -128,6 +149,7 @@ function detectarColisionConEnemigo(enemigo) {
     ) {
         if (!enemigo.haChocado && !estaInmune) {
             vidas -= 1;
+            puntosSistema.disminuir(10); // Restar 10 puntos al perder una vida
             enemigo.haChocado = true;
             console.log("¡Chocaste con un enemigo! Vidas restantes: " + vidas);
             runner.efectoPerderVida();
@@ -136,10 +158,10 @@ function detectarColisionConEnemigo(enemigo) {
             if (vidas === 0) {
                 detenerJuego();
             }
+            return true; // Retornar true si hubo colisión
         }
-    } else {
-        enemigo.haChocado = false;
     }
+    return false; // Retornar false si no hubo colisión
 }
 
 
@@ -222,7 +244,7 @@ function detenerJuego() {
     enemigos = [];  // Limpiar el array de enemigos
 
     // Mostrar los puntos finales
-    document.getElementById("puntos-finales").textContent = `Puntos: ${puntos}`;
+    document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
 }
 
 
@@ -230,9 +252,12 @@ function detenerJuego() {
 function reiniciarJuego() {
     // Reiniciar variables
     vidas = 3;
-    puntos = 0;
+    puntosSistema.puntos = 0;  // Reiniciar puntos
     juegoActivo = true;
-
+    // Actualizar visualmente los puntos en la pantalla
+    document.getElementById("puntos-valor").textContent = puntosSistema.puntos;
+    // Limpiar el intervalo del cronómetro si existe
+    clearInterval(intervalCronometro);
     // Ocultar cartel de "Perdiste"
     const cartelPerdiste = document.getElementById("cartel-perdiste");
     cartelPerdiste.classList.remove("visible");
@@ -252,11 +277,11 @@ function reiniciarJuego() {
     const contenedor = document.getElementById("container");
     contenedor.classList.remove("pausado");
 
-        // Reiniciar cronómetro
-        tiempoRestante = 30;
-        document.getElementById("imagen-cronometro").src = "images/30seg.png";
-        document.getElementById("tiempo-restante").textContent = tiempoRestante;
-        intervalCronometro = setInterval(actualizarCronometro, 1000);
+    // Reiniciar cronómetro
+    tiempoRestante = 30;
+    document.getElementById("imagen-cronometro").src = "images/30seg.png";
+    document.getElementById("tiempo-restante").textContent = tiempoRestante;
+    intervalCronometro = setInterval(actualizarCronometro, 1000);
 }
 
 let intervalGenerarObjeto = setInterval(generarObjetoAleatorio, 10000); // Generar un objeto cada 10 segundos
@@ -298,6 +323,7 @@ function detectarColisionConCervezaDuff(cerveza) {
             // Homero ha recogido la cerveza Duff
             activarInmunidad();
             cerveza.remove(); // Eliminar la cerveza Duff
+            puntosSistema.aumentar(70);
             return; // Salir del chequeo
         }
 
@@ -350,6 +376,7 @@ function detectarColisionConDona(dona) {
             vidas += 1; // Incrementar vidas
             actualizarBarraDeVidas(); // Actualizar barra de vidas
             dona.dona.remove(); // Eliminar la dona
+            puntosSistema.aumentar(50);
             return; // Salir del chequeo
         }
 
@@ -386,7 +413,7 @@ function actualizarCronometro() {
     } else if (tiempoRestante === 0) {
         imagenCronometro.src = "images/0seg.png";
         detenerJuego(); // Detener el juego cuando el tiempo llega a 0
-    }else if (tiempoRestante >=30) {
+    } else if (tiempoRestante >= 30) {
         imagenCronometro.src = "images/30seg.png";
     }
 
@@ -422,6 +449,7 @@ function detectarColisionConTaco(taco) {
             tiempoRestante += 30; // Incrementar el tiempo en 5 segundos
             actualizarCronometro(); // Actualizar el cronómetro
             taco.taco.remove(); // Eliminar el taco
+            puntosSistema.aumentar(20);
             return; // Salir del chequeo
         }
 
