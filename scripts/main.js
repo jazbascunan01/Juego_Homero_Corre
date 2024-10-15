@@ -32,7 +32,7 @@ let enemigos = [];
 let vidas = 3;
 let puntos = 0; // Añadimos puntos para el sistema futuro
 const maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
-let juegoActivo = true; // Para saber si el juego está activo
+let juegoActivo = false; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
 let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
@@ -248,6 +248,26 @@ function detenerJuego() {
 }
 
 
+// Función para iniciar el juego
+function iniciarJuego() {
+    if (juegoActivo) return;  // No iniciar el juego si ya está activo
+    
+    juegoActivo = true;  // Marcar el juego como activo
+    vidas = 3;  // Reiniciar vidas
+    puntosSistema.puntos = 0;  // Reiniciar puntos
+
+    // Iniciar los intervalos
+    intervalGameLoop = setInterval(gameLoop, 50);
+    intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
+    intervalSumarPuntosPorTiempo = setInterval(sumarPuntosPorTiempo, 1000);
+    intervalGenerarObjeto = setInterval(generarObjetoAleatorio, 10000);
+
+    // Activar los eventos del personaje
+    agregarEventosPersonaje();
+
+    // Actualizar visualmente los puntos
+    document.getElementById("puntos-valor").textContent = puntosSistema.puntos;
+}
 
 function reiniciarJuego() {
     // Reiniciar variables
@@ -459,3 +479,52 @@ function detectarColisionConTaco(taco) {
 
     verificarColision();
 }
+/* PANTALLA INICIO */
+document.addEventListener("DOMContentLoaded", () => {
+    const pantallaInicio = document.getElementById("pantalla-inicio");
+    const containerJuego = document.getElementById("container");
+    const botonJugar = document.getElementById("btn-jugar");
+    const botonComoJugar = document.getElementById("btn-como-jugar");
+
+    // Asegúrate de que el juego esté oculto al cargar la página
+    containerJuego.style.display = "none";
+
+    // Función para iniciar el juego
+    botonJugar.addEventListener("click", () => {
+        // Ocultar la pantalla de inicio
+        pantallaInicio.style.display = "none";
+        // Mostrar el contenedor del juego
+        containerJuego.style.display = "block";
+        iniciarJuego();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Aquí puedes agregar cualquier lógica que necesites para el inicio
+    const pantallaInicio = document.getElementById('pantalla-inicio');
+    
+    // Podrías ocultar la pantalla de inicio después de un tiempo o un evento
+    setTimeout(() => {
+        pantallaInicio.classList.add('oculto');
+    }, 10000); // Cambia 10000 por el tiempo que desees (en milisegundos)
+});
+// Abrir modal
+document.getElementById('btn-como-jugar').addEventListener('click', function() {
+    document.getElementById('modal-como-jugar').classList.add('visible');
+    document.getElementById('modal-como-jugar').classList.remove('oculto');
+});
+
+// Cerrar modal
+document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
+    document.getElementById('modal-como-jugar').classList.remove('visible');
+    document.getElementById('modal-como-jugar').classList.add('oculto');
+});
+
+// También puedes cerrar el modal haciendo clic fuera de él
+window.addEventListener('click', function(event) {
+    let modal = document.getElementById('modal-como-jugar');
+    if (event.target === modal) {
+        modal.classList.remove('visible');
+        modal.classList.add('oculto');
+    }
+});

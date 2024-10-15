@@ -9,6 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: url("images/cursor.png"), auto;
 }
 
 body {
@@ -331,7 +332,7 @@ body {
     z-index: 30;
     top: 420px;
     border-radius: 5%;
-    animation: enemigo 10s linear infinite, caminarSelma 1s steps(5) infinite;
+    animation: enemigo 10s linear infinite, caminarSelma 0.5s steps(5) infinite;
 }
 
 @keyframes caminarSelma {
@@ -465,7 +466,7 @@ body {
     z-index: 30;
     top: 425px;
     border-radius: 5%;
-    animation: abueloAnimacion 10s linear infinite, caminarAbuelo 1s steps(4) infinite;
+    animation: abueloAnimacion 10s linear infinite, caminarAbuelo 0.5s steps(4) infinite;
 }
 
 @keyframes caminarAbuelo {
@@ -565,4 +566,261 @@ body {
     align-items: center;
     font-size: 24px;
     color: black;
+}
+/* ================================================================
+  ||     Fondo de la pantalla de inicio                           ||
+   ================================================================ */
+   .fondo-animado {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 0; /* El fondo animado debe estar en la capa más baja */
+    
+}
+
+#pantalla-inicio {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 1300px;
+    height: 90%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Asegurar que la pantalla de inicio esté visible */
+    cursor: url("images/cursor.png"), auto;
+}
+
+/* Asegura que los botones sean clicables */
+#btn-jugar, #btn-como-jugar {
+    position: relative;
+    z-index: 2; /* Más alto que el fondo animado */
+}
+
+
+.cielo2 {
+    position: absolute;
+    top: 0%;
+    width: 120%;
+    background-size: 1527px 100% !important;
+    background: url('images/bg.jpg') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    animation: moverCielo 15s linear infinite;
+    background-size: cover;
+    z-index: 1;
+}
+
+
+.nubes2 {
+    position: absolute;
+    top: 0%;
+    width: 120%;
+    height: 150%;
+    background-size: 1536px 100% !important;
+    animation: moverCielo 15s linear infinite;
+    opacity: 1;
+    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    background-size: cover;
+    z-index: 1;
+}
+.nubes3 {
+    position: absolute;
+    top: 3%;
+    width: 120%;
+    height: 150%;
+    background-size: 1527px 100% !important;
+    animation: moverCielo2 20s linear infinite;
+    opacity: 1;
+    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    background-size: cover;
+    z-index: 1;
+}
+
+
+#texto {
+    position: absolute;
+    top: 40%; /* Ajusta la posición según necesites */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Asegúrate de que esté encima de todo */
+    text-align: center; /* Centrar el texto */
+}
+
+#text-the, #text-simpsons {
+    display: block; /* Mostrar como bloque para que cada uno esté en su línea */
+    opacity: 0; /* Comenzar invisible */
+    animation: aparecer 3s forwards; /* Aparecer con la animación */
+}
+
+#text-the {
+    width: 560px;
+    animation-delay: 1s; /* Retraso para que aparezca primero "The" */
+}
+
+#text-simpsons {
+    animation-delay: 4s; /* Retraso para que aparezca después "Simpsons" */
+}
+
+@keyframes moverCielo2 {
+    0% {
+        background-position: 1527px
+    }
+
+    100% {
+        background-position: 0
+    }
+}
+@keyframes moverCielo {
+    0% {
+        background-position: 0
+    }
+
+    100% {
+        background-position: 1536px
+    }
+}
+
+@keyframes moverNubes {
+    from { background-position: -1000px 0; }
+    to { background-position: 0 0; }
+}
+
+@keyframes aparecer {
+    to { opacity: 1; }
+}
+
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* Botones */
+.contenedor-botones {
+    top: 200px;
+    position: relative;
+    z-index: 15; /* Elevar el z-index para que los botones estén siempre visibles */
+}
+
+.boton {
+    background-color: #ff4081;
+    border: none;
+    padding: 15px 30px;
+    margin: 10px;
+    color: white;
+    font-size: 24px;
+    /* cursor: url("images/cursor.png"); */
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.boton:hover {
+    background-color: #f50057;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    /* cursor: url("images/pointer.png"); */
+}
+
+/* Ocultar el juego al inicio */
+.container {
+    display: none;
+}
+
+/* Mostrar el juego cuando se oculta la pantalla de inicio */
+#pantalla-inicio.oculto + .container {
+    display: block;
+}
+button{
+    cursor: url("images/pointer.png"), auto;
+}
+/* Estilos del modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2C3E50;
+    color: white;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    width: 70%;
+    border-radius: 10px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    height: 80%;
+    overflow: hidden;
+}
+
+.modal-content {
+    position: relative;
+    height: 100%;
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+    padding-right: 10px; /* Agrega algo de espacio para que el contenido no se corte */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    cursor: url("images/pointer.png"), auto;
+}
+
+.modal h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.modal h3 {
+    font-size: 22px;
+    margin: 15px 0;
+}
+
+.modal p {
+    font-size: 18px;
+}
+
+.info-section {
+    margin-bottom: 20px;
+}
+
+.bonus-list, .enemy-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bonus-item, .enemy-item {
+    text-align: center;
+    width: 30%;
+}
+
+.bonus-item img, .enemy-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+.enemy-item{
+    border-radius: 50%;
+}
+.control-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.control-list li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Para hacer que el modal sea visible */
+.modal.visible {
+    display: block;
 }

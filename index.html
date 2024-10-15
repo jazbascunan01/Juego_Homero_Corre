@@ -9,6 +9,70 @@
 </head>
 
 <body>
+    <div id="pantalla-inicio" class="visible">
+        <div class="fondo-animado">
+            <img src="images/bg.jpg" alt="Cielo" class="cielo2">
+            <img alt="Nubes" class="nubes2">
+            <img alt="Nubes" class="nubes3">
+            <div id="texto">
+                <img src="images/The_Simpsons_yellow_logo.svg" id="text-the" alt="The">
+            </div>
+            <div class="contenedor-botones">
+                <button id="btn-jugar" class="boton">Jugar</button>
+                <button id="btn-como-jugar" class="boton">¿Cómo Jugar?</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ¿Cómo Jugar? -->
+    <div id="modal-como-jugar" class="modal oculto">
+        <div class="modal-content">
+            <span id="btn-cerrar-modal" class="close">&times;</span>
+            <h2>¿Cómo Jugar?</h2>
+            <p>Tu objetivo es guiar a Homero Simpson mientras evade enemigos y recoge objetos para ganar puntos.</p>
+            <div class="info-section">
+                <h3>Controles</h3>
+                <ul class="control-list">
+                    <li><strong>Espacio:</strong> Saltar para evitar enemigos.</li>
+                    <li><strong>Flechas:</strong> Movimiento lateral.</li>
+                </ul>
+            </div>
+            <div class="info-section">
+                <h3>Bonus y Puntos</h3>
+                <div class="bonus-list">
+                    <div class="bonus-item">
+                        <img src="images/dona.png" alt="Dona">
+                        <p><strong>Dona:</strong> +1 vida.</p>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="images/cerveza_duff.png" alt="Cerveza Duff">
+                        <p><strong>Cerveza Duff:</strong> Inmunidad.</p>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="images/taco.png" alt="Taco">
+                        <p><strong>Taco:</strong> +30 segundos en el cronómetro.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="info-section">
+                <h3>Enemigos</h3>
+                <div class="enemy-list">
+                    <div class="enemy-item">
+                        <img src="images/selma_modal.png" alt="Selma">
+                        <p><strong>Selma:</strong> Camina por la vereda, evita saltando.</p>
+                    </div>
+<!--                     <div class="enemy-item">
+                        <img src="images/patty.png" alt="Patty">
+                        <p><strong>Patty:</strong> Similar a Selma, más rápida.</p>
+                    </div>
+                    <div class="enemy-item">
+                        <img src="images/jefe-gorgory.png" alt="Jefe Gorgory">
+                        <p><strong>Jefe Gorgory:</strong> Camina lentamente, pero es más difícil de evitar.</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container" id="container">
         <div id="sky"></div>
         <div id="vidas"></div>
