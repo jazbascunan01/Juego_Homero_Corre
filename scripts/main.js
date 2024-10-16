@@ -1,7 +1,8 @@
 "use strict";
-
+let enemigos = [];
 let runner = new Runner();
 runner.correr();
+let puedeDisparar = true;  // Variable para controlar si el personaje puede disparar
 const puntosSistema = new Puntos(); // Instancia de la clase Puntos
 
 // Funciones para manejar los event listeners
@@ -14,21 +15,62 @@ function quitarEventosPersonaje() {
     document.removeEventListener('keydown', manejarTeclas);
     document.removeEventListener('keyup', manejarTeclas);
 }
-
+function eliminarEnemigo() {
+    enemigos.forEach((enemigo, index) => {
+        enemigos.splice(index, 1);
+        enemigo.enemigo.remove();
+    });
+}
 // Función para manejar los eventos de teclado
 function manejarTeclas(event) {
     if (!juegoActivo) return;  // Si el juego no está activo, ignorar los eventos
 
     if (event.type === 'keydown') {
-        if (event.key === ' ' || event.key === 'ArrowUp') {
+        if (event.key === 'ArrowUp') {
             runner.saltar();
+        }
+        if (event.code === "Space" && puedeDisparar) {
+            puedeDisparar = false;
+            runner.disparar();
+            document.getElementById("personaje").classList.add("disparando");
+
+            let contadorDisparo = document.getElementById("contador-disparo");
+            let segundosRestantes = 5;  // Tiempo de espera para volver a disparar
+
+            // Mostrar el contador de disparo y actualizar cada segundo
+            contadorDisparo.textContent = segundosRestantes;
+            contadorDisparo.classList.remove("oculto");
+
+            let intervaloDisparo = setInterval(() => {
+                segundosRestantes--;
+                contadorDisparo.textContent = segundosRestantes;
+
+                // Si ya se puede disparar, ocultar el contador
+                if (segundosRestantes <= 0) {
+                    clearInterval(intervaloDisparo);
+                    puedeDisparar = true;
+                    document.getElementById("personaje").classList.remove("disparando");
+                    contadorDisparo.classList.add("oculto");
+                }
+            }, 1000);  // Actualiza el contador cada segundo
+            // Rehabilitar el evento después de 5 segundos
+            setTimeout(() => {
+                puedeDisparar = true;
+                document.getElementById("personaje").classList.remove("disparando");
+            }, 5000);
+        }
+    }
+    if (event.type === 'keyup') {
+        if (event.code === "Space") {
+            setTimeout(() => {
+                document.getElementById("personaje").classList.remove("disparando");
+            }, 500);
         }
     }
 }
-
 // Al iniciar el juego
 agregarEventosPersonaje();
-let enemigos = [];
+
 let vidas = 3;
 let puntos = 0; // Añadimos puntos para el sistema futuro
 const maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
@@ -154,7 +196,14 @@ function detectarColisionConEnemigo(enemigo) {
             console.log("¡Chocaste con un enemigo! Vidas restantes: " + vidas);
             runner.efectoPerderVida();
             actualizarBarraDeVidas();
+            // Quitar los eventos mientras Homero está parpadeando
+            quitarEventosPersonaje();
 
+            // Temporizador para restablecer eventos después del parpadeo (ajusta el tiempo según la duración del parpadeo)
+            setTimeout(() => {
+                agregarEventosPersonaje();
+                console.log("Eventos restaurados después del parpadeo.");
+            }, 2000);
             if (vidas === 0) {
                 detenerJuego();
             }
@@ -251,7 +300,7 @@ function detenerJuego() {
 // Función para iniciar el juego
 function iniciarJuego() {
     if (juegoActivo) return;  // No iniciar el juego si ya está activo
-    
+
     juegoActivo = true;  // Marcar el juego como activo
     vidas = 3;  // Reiniciar vidas
     puntosSistema.puntos = 0;  // Reiniciar puntos
@@ -499,29 +548,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Aquí puedes agregar cualquier lógica que necesites para el inicio
     const pantallaInicio = document.getElementById('pantalla-inicio');
-    
+
     // Podrías ocultar la pantalla de inicio después de un tiempo o un evento
     setTimeout(() => {
         pantallaInicio.classList.add('oculto');
     }, 10000); // Cambia 10000 por el tiempo que desees (en milisegundos)
 });
 // Abrir modal
-document.getElementById('btn-como-jugar').addEventListener('click', function() {
+document.getElementById('btn-como-jugar').addEventListener('click', function () {
     document.getElementById('modal-como-jugar').classList.add('visible');
     document.getElementById('modal-como-jugar').classList.remove('oculto');
 });
 
 // Cerrar modal
-document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
+document.getElementById('btn-cerrar-modal').addEventListener('click', function () {
     document.getElementById('modal-como-jugar').classList.remove('visible');
     document.getElementById('modal-como-jugar').classList.add('oculto');
 });
 
 // También puedes cerrar el modal haciendo clic fuera de él
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     let modal = document.getElementById('modal-como-jugar');
     if (event.target === modal) {
         modal.classList.remove('visible');

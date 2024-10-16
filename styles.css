@@ -824,3 +824,37 @@ button{
 .modal.visible {
     display: block;
 }
+/* Estilo para la bala */
+.bala {
+    position: absolute;
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    height: 10px; /* Ajusta el tamaño según sea necesario */
+    background: url('images/bala.png') no-repeat center center;
+    background-size: contain;
+    z-index: 10;
+    overflow: hidden;
+}
+/* DISPARO */
+#personaje.disparando {
+    background-image: url('images/disparo3.png');
+    background-size: cover 100%;
+    width: 62.92px !important;
+    height: 95px !important;
+    animation: disparo 0.5s steps(12) forwards; /* 0.8 segundos para recorrer los 12 fotogramas */
+}
+@keyframes disparo {
+    100% {
+        background-position: -755px 0; /* Mover 12 fotogramas de 100px cada uno */
+    }
+}
+#contador-disparo {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    font-size: 24px;
+    color: red;
+}
+
+.oculto {
+    display: none;
+}
