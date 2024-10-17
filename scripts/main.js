@@ -73,11 +73,14 @@ agregarEventosPersonaje();
 
 let vidas = 3;
 let puntos = 0; // Añadimos puntos para el sistema futuro
-const maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
+let maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
 let juegoActivo = false; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
 let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
+let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos (en milisegundos)
+let tiempoReduccion = 500;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
+let tiempoMinimoLimite = 2000;
 // Función para actualizar la barra de vidas
 function actualizarBarraDeVidas() {
     const barraVidas = document.getElementById("vidas");
@@ -215,8 +218,8 @@ function detectarColisionConEnemigo(enemigo) {
 
 
 let ultimoTiempoGeneracion = Date.now(); // Marca de tiempo de la última generación
-const tiempoMinimoGeneracion = 3000;  // Aumenté el tiempo mínimo a 4 segundos
-let distanciaMinima = 1000;  // Aumenté la distancia mínima entre enemigos
+//const tiempoMinimoGeneracion = 3000;  // Aumenté el tiempo mínimo a 4 segundos
+let distanciaMinima = 1000;
 
 function generarEnemigo() {
     if (!juegoActivo) return;
@@ -236,6 +239,7 @@ function generarEnemigo() {
                 if (posUltimoEnemigo.right < window.innerWidth - distanciaMinima) {
                     crearNuevoEnemigo();
                     ultimoTiempoGeneracion = tiempoActual;  // Actualizar el tiempo de la última generación
+                    aumentarDificultad();
                 } else {
                     console.log("El último enemigo está demasiado cerca, esperando...");
                 }
@@ -243,10 +247,29 @@ function generarEnemigo() {
                 // Si no hay enemigos en pantalla, generar uno de inmediato
                 crearNuevoEnemigo();
                 ultimoTiempoGeneracion = tiempoActual;  // Actualizar el tiempo de la última generación
+                aumentarDificultad();
             }
         } else {
             console.log("Esperando para generar otro enemigo...");
         }
+    }
+}
+function aumentarDificultad() {
+    // Reducir el tiempo mínimo de generación hasta alcanzar el límite
+    if (tiempoMinimoGeneracion > tiempoMinimoLimite) {
+        tiempoMinimoGeneracion -= tiempoReduccion;
+        distanciaMinima -=500;
+        clearInterval(intervalGenerarEnemigo);
+        intervalGenerarEnemigo = setInterval(generarEnemigo, tiempoMinimoGeneracion);
+        console.log("Nueva dificultad: tiempo de generación reducido a " + tiempoMinimoGeneracion + " ms");
+    }
+
+    // Aumentar la velocidad de los enemigos
+    enemigos.forEach(enemigo => {
+        enemigo.velocidad += 0.5; // Incrementar la velocidad de cada enemigo
+    });
+    if (maxEnemigosEnPantalla<6) {
+        maxEnemigosEnPantalla+=1;
     }
 }
 
