@@ -455,13 +455,16 @@ body {
         transform: rotate(-360deg);
     }
 }
+
 /* ================================================================
   ||              ABUELO SIMPSON: ENEMIGO                         ||
    ================================================================ */
-   .abuelo {
+.abuelo {
     position: absolute;
-    width: 45px; /* Ajusta según el tamaño del sprite */
-    height: 76px;  /* Ajusta según el tamaño del sprite */
+    width: 45px;
+    /* Ajusta según el tamaño del sprite */
+    height: 76px;
+    /* Ajusta según el tamaño del sprite */
     background: url("images/abuelo_enemigo.png") no-repeat;
     z-index: 30;
     top: 425px;
@@ -469,13 +472,26 @@ body {
     animation: abueloAnimacion 10s linear infinite, caminarAbuelo 0.5s steps(4) infinite;
 }
 
+.pajaro {
+    position: absolute;
+    width: 35px;
+    /* Ajusta según el tamaño del sprite */
+    height: 76px;
+    /* Ajusta según el tamaño del sprite */
+    background: url("images/pajaro.png") no-repeat;
+    z-index: 30;
+    top: 370px;
+    border-radius: 5%;
+    animation: pajaroAnimacion 10s linear infinite, volarPajaro 0.5s steps(6) infinite;
+}
 @keyframes caminarAbuelo {
     from {
         background-position: 0 0;
     }
 
     to {
-        background-position: -180px 0; /* Tamaño de la imagen completa */
+        background-position: -180px 0;
+        /* Tamaño de la imagen completa */
     }
 }
 
@@ -488,6 +504,27 @@ body {
         left: -100%;
     }
 }
+@keyframes volarPajaro {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -292px 0;
+        /* Tamaño de la imagen completa */
+    }
+}
+
+@keyframes pajaroAnimacion {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: -100%;
+    }
+}
+
 /* CRONOMETRO */
 /* Estilos para el cronómetro */
 #cronometro {
@@ -505,24 +542,43 @@ body {
     height: 50px;
     margin-right: 10px;
 }
-#tiempo-restante, #segundos{
+
+#tiempo-restante,
+#segundos {
     color: black;
 }
+
 /* TACO */
 .taco {
-    width: 30px; /* Ancho del taco */
-    height: 30px; /* Alto del taco */
-    background-image: url("images/taco.png"); /* Ruta de la imagen del taco */
-    background-size: cover; /* Ajustar la imagen para que cubra el contenedor */
-    position: absolute; /* Posición absoluta para poder mover el taco */
+    width: 30px;
+    /* Ancho del taco */
+    height: 30px;
+    /* Alto del taco */
+    background-image: url("images/taco.png");
+    /* Ruta de la imagen del taco */
+    background-size: cover;
+    /* Ajustar la imagen para que cubra el contenedor */
+    position: absolute;
+    /* Posición absoluta para poder mover el taco */
     z-index: 35;
     animation: movimientoTaco 1s infinite;
 }
+
 @keyframes movimientoTaco {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); } /* El taco sube 20px */
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    /* El taco sube 20px */
+    100% {
+        transform: translateY(0);
+    }
 }
+
 /* CERVEZA DUFF */
 /* Estilo para la cerveza Duff */
 .cerveza-duff {
@@ -534,31 +590,45 @@ body {
     z-index: 35;
     animation: entradaSacudida 1.5s ease-in-out infinite;
 }
+
 @keyframes entradaSacudida {
     0% {
-        transform: rotate(0deg); /* Inicia desde el lado derecho */
+        transform: rotate(0deg);
+        /* Inicia desde el lado derecho */
     }
+
     15% {
-        transform:  rotate(-10deg); /* Se inclina a la izquierda */
+        transform: rotate(-10deg);
+        /* Se inclina a la izquierda */
     }
+
     30% {
-        transform:  rotate(10deg); /* Se inclina a la derecha */
+        transform: rotate(10deg);
+        /* Se inclina a la derecha */
     }
+
     45% {
-        transform: rotate(-5deg); /* Vuelve a la izquierda levemente */
+        transform: rotate(-5deg);
+        /* Vuelve a la izquierda levemente */
     }
+
     60% {
-        transform: rotate(5deg); /* Vuelve a la derecha levemente */
+        transform: rotate(5deg);
+        /* Vuelve a la derecha levemente */
     }
+
     100% {
-        transform: rotate(0deg); /* Se coloca en su posición final */
+        transform: rotate(0deg);
+        /* Se coloca en su posición final */
     }
 }
+
 /* Efecto de inmunidad para Homero */
 #personaje.inmunidad {
     filter: brightness(1.3) drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
 }
-#puntos-valor{
+
+#puntos-valor {
     position: absolute;
     top: 20px;
     right: 50%;
@@ -567,10 +637,11 @@ body {
     font-size: 24px;
     color: black;
 }
+
 /* ================================================================
   ||     Fondo de la pantalla de inicio                           ||
    ================================================================ */
-   .fondo-animado {
+.fondo-animado {
     position: relative;
     width: 100%;
     height: 100%;
@@ -578,8 +649,9 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    z-index: 0; /* El fondo animado debe estar en la capa más baja */
-    
+    z-index: 0;
+    /* El fondo animado debe estar en la capa más baja */
+
 }
 
 #pantalla-inicio {
@@ -593,14 +665,17 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10; /* Asegurar que la pantalla de inicio esté visible */
+    z-index: 10;
+    /* Asegurar que la pantalla de inicio esté visible */
     cursor: url("images/cursor.png"), auto;
 }
 
 /* Asegura que los botones sean clicables */
-#btn-jugar, #btn-como-jugar {
+#btn-jugar,
+#btn-como-jugar {
     position: relative;
-    z-index: 2; /* Más alto que el fondo animado */
+    z-index: 2;
+    /* Más alto que el fondo animado */
 }
 
 
@@ -609,7 +684,8 @@ body {
     top: 0%;
     width: 120%;
     background-size: 1527px 100% !important;
-    background: url('images/bg.jpg') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    background: url('images/bg.jpg') repeat-x;
+    /* Asegúrate de tener un fondo de nubes */
     animation: moverCielo 15s linear infinite;
     background-size: cover;
     z-index: 1;
@@ -624,10 +700,12 @@ body {
     background-size: 1536px 100% !important;
     animation: moverCielo 15s linear infinite;
     opacity: 1;
-    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x;
+    /* Asegúrate de tener un fondo de nubes */
     background-size: cover;
     z-index: 1;
 }
+
 .nubes3 {
     position: absolute;
     top: 3%;
@@ -636,7 +714,8 @@ body {
     background-size: 1527px 100% !important;
     animation: moverCielo2 20s linear infinite;
     opacity: 1;
-    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x; /* Asegúrate de tener un fondo de nubes */
+    background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x;
+    /* Asegúrate de tener un fondo de nubes */
     background-size: cover;
     z-index: 1;
 }
@@ -644,26 +723,35 @@ body {
 
 #texto {
     position: absolute;
-    top: 40%; /* Ajusta la posición según necesites */
+    top: 40%;
+    /* Ajusta la posición según necesites */
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10; /* Asegúrate de que esté encima de todo */
-    text-align: center; /* Centrar el texto */
+    z-index: 10;
+    /* Asegúrate de que esté encima de todo */
+    text-align: center;
+    /* Centrar el texto */
 }
 
-#text-the, #text-simpsons {
-    display: block; /* Mostrar como bloque para que cada uno esté en su línea */
-    opacity: 0; /* Comenzar invisible */
-    animation: aparecer 3s forwards; /* Aparecer con la animación */
+#text-the,
+#text-simpsons {
+    display: block;
+    /* Mostrar como bloque para que cada uno esté en su línea */
+    opacity: 0;
+    /* Comenzar invisible */
+    animation: aparecer 3s forwards;
+    /* Aparecer con la animación */
 }
 
 #text-the {
     width: 560px;
-    animation-delay: 1s; /* Retraso para que aparezca primero "The" */
+    animation-delay: 1s;
+    /* Retraso para que aparezca primero "The" */
 }
 
 #text-simpsons {
-    animation-delay: 4s; /* Retraso para que aparezca después "Simpsons" */
+    animation-delay: 4s;
+    /* Retraso para que aparezca después "Simpsons" */
 }
 
 @keyframes moverCielo2 {
@@ -675,6 +763,7 @@ body {
         background-position: 0
     }
 }
+
 @keyframes moverCielo {
     0% {
         background-position: 0
@@ -686,24 +775,41 @@ body {
 }
 
 @keyframes moverNubes {
-    from { background-position: -1000px 0; }
-    to { background-position: 0 0; }
+    from {
+        background-position: -1000px 0;
+    }
+
+    to {
+        background-position: 0 0;
+    }
 }
 
 @keyframes aparecer {
-    to { opacity: 1; }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes parpadeo {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.1); }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
 }
 
 /* Botones */
 .contenedor-botones {
     top: 200px;
     position: relative;
-    z-index: 15; /* Elevar el z-index para que los botones estén siempre visibles */
+    z-index: 15;
+    /* Elevar el z-index para que los botones estén siempre visibles */
 }
 
 .boton {
@@ -733,12 +839,14 @@ body {
 }
 
 /* Mostrar el juego cuando se oculta la pantalla de inicio */
-#pantalla-inicio.oculto + .container {
+#pantalla-inicio.oculto+.container {
     display: block;
 }
-button{
+
+button {
     cursor: url("images/pointer.png"), auto;
 }
+
 /* Estilos del modal */
 .modal {
     display: none;
@@ -762,8 +870,10 @@ button{
 .modal-content {
     position: relative;
     height: 100%;
-    overflow-y: auto; /* Permite el desplazamiento vertical */
-    padding-right: 10px; /* Agrega algo de espacio para que el contenido no se corte */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical */
+    padding-right: 10px;
+    /* Agrega algo de espacio para que el contenido no se corte */
 }
 
 .close {
@@ -792,24 +902,29 @@ button{
     margin-bottom: 20px;
 }
 
-.bonus-list, .enemy-list {
+.bonus-list,
+.enemy-list {
     display: flex;
     justify-content: space-between;
 }
 
-.bonus-item, .enemy-item {
+.bonus-item,
+.enemy-item {
     text-align: center;
     width: 30%;
 }
 
-.bonus-item img, .enemy-item img {
+.bonus-item img,
+.enemy-item img {
     width: 80px;
     height: 80px;
     margin-bottom: 10px;
 }
-.enemy-item{
+
+.enemy-item {
     border-radius: 50%;
 }
+
 .control-list {
     list-style: none;
     padding-left: 0;
@@ -824,29 +939,37 @@ button{
 .modal.visible {
     display: block;
 }
+
 /* Estilo para la bala */
 .bala {
     position: absolute;
-    width: 20px; /* Ajusta el tamaño según sea necesario */
-    height: 10px; /* Ajusta el tamaño según sea necesario */
+    width: 20px;
+    /* Ajusta el tamaño según sea necesario */
+    height: 10px;
+    /* Ajusta el tamaño según sea necesario */
     background: url('images/bala.png') no-repeat center center;
     background-size: contain;
     z-index: 10;
     overflow: hidden;
 }
+
 /* DISPARO */
 #personaje.disparando {
     background-image: url('images/disparo3.png');
     background-size: cover 100%;
     width: 62.92px !important;
     height: 95px !important;
-    animation: disparo 0.5s steps(12) forwards; /* 0.8 segundos para recorrer los 12 fotogramas */
+    animation: disparo 0.5s steps(12) forwards;
+    /* 0.8 segundos para recorrer los 12 fotogramas */
 }
+
 @keyframes disparo {
     100% {
-        background-position: -755px 0; /* Mover 12 fotogramas de 100px cada uno */
+        background-position: -755px 0;
+        /* Mover 12 fotogramas de 100px cada uno */
     }
 }
+
 #contador-disparo {
     position: absolute;
     top: 50px;
@@ -858,6 +981,7 @@ button{
 .oculto {
     display: none;
 }
+
 #personaje.agachado {
     background: url("images/homero_agachado.png");
     animation: none;
@@ -865,3 +989,4 @@ button{
     background-repeat: no-repeat;
     top: 150px;
 }
+

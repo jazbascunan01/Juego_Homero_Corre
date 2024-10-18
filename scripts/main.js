@@ -292,8 +292,9 @@ function crearNuevoEnemigo() {
         }
     }
 
-    // Seleccionar aleatoriamente el tipo de enemigo
-    const tipoEnemigo = Math.random() < 0.5 ? 'selma' : 'abuelo';
+     // Seleccionar aleatoriamente el tipo de enemigo
+     const tiposEnemigo = ['selma', 'abuelo', 'pajaro'];
+     const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
 
     // Crear el nuevo enemigo si la distancia es suficiente
     let enemigo = new Enemigo(tipoEnemigo);
