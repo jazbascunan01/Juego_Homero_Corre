@@ -80,14 +80,14 @@ agregarEventosPersonaje();
 
 let vidas = 3;
 let puntos = 0; // Añadimos puntos para el sistema futuro
-let maxEnemigosEnPantalla = 3;  // Máximo de enemigos en pantalla
+let maxEnemigosEnPantalla = 6;  // Máximo de enemigos en pantalla
 let juegoActivo = false; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
 let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
 let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos (en milisegundos)
-let tiempoReduccion = 500;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
-let tiempoMinimoLimite = 2000;
+let tiempoReduccion = 200;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
+let tiempoMinimoLimite = 900;
 // Función para actualizar la barra de vidas
 function actualizarBarraDeVidas() {
     const barraVidas = document.getElementById("vidas");
@@ -261,24 +261,54 @@ function generarEnemigo() {
         }
     }
 }
+let incrementoVelocidad = 0.1;  // La cantidad en que aumentará la velocidad
+let intervaloAumentoVelocidad = 5000; // Cada cuánto tiempo aumentará la velocidad (en milisegundos)
+
+// Función para aumentar la velocidad del juego
+function aumentarVelocidadJuego() {
+    let incremento = Math.floor(puntosSistema.puntos / 100) * incrementoVelocidad;
+    // Aumentar la velocidad de los enemigos
+    enemigos.forEach(enemigo => {
+        enemigo.velocidad += incremento;
+    });
+    runner.velocidad += incremento; // Aumentar la velocidad del runner
+    console.log("Velocidad aumentada: " + incremento);
+}
+
+
+setInterval(() => {
+    if (juegoActivo) {
+        aumentarDificultad();
+    }
+}, 10000); // Cada 10 segundos aumenta la dificultad
+function calcularTiempoGeneracion() {
+    // Aumenta la frecuencia reduciendo el tiempo de generación basado en los puntos
+    let nuevoTiempo = Math.max(tiempoMinimoLimite, 6000 - (puntosSistema.puntos * 10));
+    return nuevoTiempo;
+}
+clearInterval(intervalGenerarEnemigo);
+intervalGenerarEnemigo = setInterval(generarEnemigo, calcularTiempoGeneracion());
+
 function aumentarDificultad() {
     // Reducir el tiempo mínimo de generación hasta alcanzar el límite
     if (tiempoMinimoGeneracion > tiempoMinimoLimite) {
         tiempoMinimoGeneracion -= tiempoReduccion;
-        distanciaMinima -=500;
+        distanciaMinima -= 500;
+        // Reiniciar el intervalo para reflejar el nuevo tiempo mínimo de generación
         clearInterval(intervalGenerarEnemigo);
         intervalGenerarEnemigo = setInterval(generarEnemigo, tiempoMinimoGeneracion);
         console.log("Nueva dificultad: tiempo de generación reducido a " + tiempoMinimoGeneracion + " ms");
     }
-
+    // Aumentar el número máximo de enemigos en pantalla cada cierto número de puntos
+    if (puntosSistema.puntos % 50 === 0) {
+        maxEnemigosEnPantalla += 1;
+    }
     // Aumentar la velocidad de los enemigos
     enemigos.forEach(enemigo => {
-        enemigo.velocidad += 0.5; // Incrementar la velocidad de cada enemigo
+        enemigo.velocidad += incrementoVelocidad;  // Incrementar la velocidad
     });
-    if (maxEnemigosEnPantalla<6) {
-        maxEnemigosEnPantalla+=1;
-    }
 }
+
 
 function crearNuevoEnemigo() {
     let ultimoEnemigo = enemigos[enemigos.length - 1];
@@ -292,9 +322,9 @@ function crearNuevoEnemigo() {
         }
     }
 
-     // Seleccionar aleatoriamente el tipo de enemigo
-     const tiposEnemigo = ['selma', 'abuelo', 'pajaro'];
-     const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
+    // Seleccionar aleatoriamente el tipo de enemigo
+    const tiposEnemigo = ['selma', 'abuelo', 'pajaro'];
+    const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
 
     // Crear el nuevo enemigo si la distancia es suficiente
     let enemigo = new Enemigo(tipoEnemigo);
