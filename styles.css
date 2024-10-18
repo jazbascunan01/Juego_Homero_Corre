@@ -484,6 +484,38 @@ body {
     border-radius: 5%;
     animation: pajaroAnimacion 10s linear infinite, volarPajaro 0.5s steps(6) infinite;
 }
+.muerte {
+    position: absolute;
+    width: 120px;
+    /* Ajusta según el tamaño del sprite */
+    height: 76px;
+    /* Ajusta según el tamaño del sprite */
+    background: url("images/muerte1.png") no-repeat;
+    z-index: 30;
+    top: 425px;
+    border-radius: 5%;
+    animation: muerteAnimacion 10s linear infinite, volarMuerte 0.5s steps(2) infinite;
+}
+@keyframes volarMuerte {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -249px 0;
+        /* Tamaño de la imagen completa */
+    }
+}
+
+@keyframes muerteAnimacion {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: -100%;
+    }
+}
 @keyframes caminarAbuelo {
     from {
         background-position: 0 0;

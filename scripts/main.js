@@ -200,22 +200,30 @@ function detectarColisionConEnemigo(enemigo) {
         posRunner.bottom > (posEnemigo.top + margenColisionEnemigoY)
     ) {
         if (!enemigo.haChocado && !estaInmune) {
-            vidas -= 1;
-            puntosSistema.disminuir(10); // Restar 10 puntos al perder una vida
-            enemigo.haChocado = true;
-            console.log("¡Chocaste con un enemigo! Vidas restantes: " + vidas);
-            runner.efectoPerderVida();
-            actualizarBarraDeVidas();
-            // Quitar los eventos mientras Homero está parpadeando
-            quitarEventosPersonaje();
-
-            // Temporizador para restablecer eventos después del parpadeo (ajusta el tiempo según la duración del parpadeo)
-            setTimeout(() => {
-                agregarEventosPersonaje();
-                console.log("Eventos restaurados después del parpadeo.");
-            }, 2000);
-            if (vidas === 0) {
+            if (enemigo.efectoEspecial()) {
+                // Si el efecto especial es "muerte", el jugador pierde todas las vidas
+                vidas = 0;
+                console.log("¡La Muerte te ha atrapado! Vidas restantes: " + vidas);
+                actualizarBarraDeVidas();
                 detenerJuego();
+            } else {
+                vidas -= 1;
+                puntosSistema.disminuir(10); // Restar 10 puntos al perder una vida
+                enemigo.haChocado = true;
+                console.log("¡Chocaste con un enemigo! Vidas restantes: " + vidas);
+                runner.efectoPerderVida();
+                actualizarBarraDeVidas();
+                // Quitar los eventos mientras Homero está parpadeando
+                quitarEventosPersonaje();
+
+                // Temporizador para restablecer eventos después del parpadeo (ajusta el tiempo según la duración del parpadeo)
+                setTimeout(() => {
+                    agregarEventosPersonaje();
+                    console.log("Eventos restaurados después del parpadeo.");
+                }, 2000);
+                if (vidas === 0) {
+                    detenerJuego();
+                }
             }
             return true; // Retornar true si hubo colisión
         }
@@ -323,7 +331,7 @@ function crearNuevoEnemigo() {
     }
 
     // Seleccionar aleatoriamente el tipo de enemigo
-    const tiposEnemigo = ['selma', 'abuelo', 'pajaro'];
+    const tiposEnemigo = ['selma', 'abuelo', 'pajaro', 'muerte'];
     const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
 
     // Crear el nuevo enemigo si la distancia es suficiente

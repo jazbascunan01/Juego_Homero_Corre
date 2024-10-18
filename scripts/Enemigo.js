@@ -11,9 +11,12 @@ class Enemigo extends Personaje {
         } else if (tipo === 'pajaro') {
             this.enemigo.classList.add('pajaro');
             console.log("pajaro");
+        } else if (tipo === 'muerte') {
+            this.enemigo.classList.add('muerte'); // Clase para La Muerte
         } else {
             this.enemigo.classList.add('enemigo'); // Selma u otros enemigos
         }
+
         // Posicionar al enemigo fuera de los límites del contenedor inicialmente
         this.enemigo.style.right = '-128px'; // Fuera del borde derecho del contenedor
         this.posX = window.innerWidth;  // Posición inicial del enemigo
@@ -25,5 +28,8 @@ class Enemigo extends Personaje {
 
     status() {
         return this.enemigo.getBoundingClientRect(); // Para verificar las colisiones
+    }
+    efectoEspecial() {
+        return this.tipo === 'muerte';
     }
 }
