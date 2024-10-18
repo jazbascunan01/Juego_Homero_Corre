@@ -492,7 +492,7 @@ body {
     /* Ajusta según el tamaño del sprite */
     background: url("images/muerte1.png") no-repeat;
     z-index: 30;
-    top: 425px;
+    top: 400px;
     border-radius: 5%;
     animation: muerteAnimacion 10s linear infinite, volarMuerte 0.5s steps(2) infinite;
 }
