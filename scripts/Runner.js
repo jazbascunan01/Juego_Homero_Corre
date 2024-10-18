@@ -113,7 +113,7 @@ class Runner extends Personaje {
             bala.style.left = `${nuevaPosicion}px`;
 
             // Verificar colisión con enemigos
-            const enemigos = document.querySelectorAll(".enemigo, .abuelo");
+            const enemigos = document.querySelectorAll(".enemigo, .abuelo, .muerte");
             enemigos.forEach((enemigo) => {
                 const enemigoRect = enemigo.getBoundingClientRect();
                 const balaRect = bala.getBoundingClientRect();
