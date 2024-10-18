@@ -22,6 +22,15 @@ class Runner extends Personaje {
         /*  this.cambiarAnimacionEnemigos("correr");
  } */
     }
+    agacharse() {
+        this.personaje.classList.add("agachado");
+        this.estaAgachado = true; // Puedes usar esta variable para verificar si está agachado
+    }
+
+    levantarse() {
+        this.personaje.classList.remove("agachado");
+        this.estaAgachado = false;
+    }
     saltar() {
         if (!this.personaje.classList.contains("saltar") && !this.personaje.classList.contains("caer")) {
             this.clean();

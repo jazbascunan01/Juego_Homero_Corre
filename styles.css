@@ -858,3 +858,10 @@ button{
 .oculto {
     display: none;
 }
+#personaje.agachado {
+    background: url("images/homero_agachado.png");
+    animation: none;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    top: 150px;
+}

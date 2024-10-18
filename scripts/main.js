@@ -59,6 +59,9 @@ function manejarTeclas(event) {
                 document.getElementById("personaje").classList.remove("disparando");
             }, 5000);
         }
+        if (event.key === 'ArrowDown') {
+            runner.agacharse();
+        }
     }
     if (event.type === 'keyup') {
         if (event.code === "Space") {
@@ -66,7 +69,11 @@ function manejarTeclas(event) {
                 document.getElementById("personaje").classList.remove("disparando");
             }, 500);
         }
+        if (event.key === 'ArrowDown') {
+            runner.levantarse();
+        }
     }
+
 }
 // Al iniciar el juego
 agregarEventosPersonaje();
