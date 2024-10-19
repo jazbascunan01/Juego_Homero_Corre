@@ -27,7 +27,7 @@ body {
 
 .container {
     width: 1300px;
-    height: 90%;
+    height: 100%;
     position: relative;
     /* Para mantener las posiciones relativas dentro del container */
     overflow: hidden;
@@ -143,14 +143,28 @@ body {
 /* ================================================================
   ||                   FONDO LEJANO Y VEREDA                      ||
    ================================================================ */
-#vereda {
-    background: url("images/Recurso\ vereda.png") repeat-x;
+   #vereda {
+    background: url("images/Recurso vereda.png") repeat-x;
     background-size: 1527px 100%;
     animation: movebgVereda 10s linear infinite;
     position: relative;
-    top: -806px;
+    top: -1018px;
     height: 288px;
-    z-index: 2;
+    z-index: 4;
+}
+#ciudad {
+    background: url("images/city.png") repeat-x;
+    background-size: 1332px 80%;
+    animation: movebgCiudad 10s linear infinite;
+    position: relative;
+    top: -915px;
+    height: 257px;
+    z-index: 3;
+    filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.5)) /* Ajustar la sombra para mayor impacto */
+            brightness(0.8) /* Disminuir el brillo para dar un efecto más dramático */
+            contrast(1.3); /* Aumentar el contraste para que los edificios se destaquen más */
+    transform: scale(1.1); /* Aumentar la escala para simular cercanía */
+    opacity: 0.9; /* Añadir opacidad para un efecto más suave */
 }
 
 #fondoLejano {
@@ -158,7 +172,7 @@ body {
     background-size: 1289px auto;
     animation: movebgLejano 27s linear infinite;
     position: relative;
-    top: -397px;
+    top: -495px;
     height: 289.5px;
     z-index: -10;
     opacity: 70%;
@@ -179,7 +193,7 @@ body {
     background-size: auto 100%;
     animation: movebgMountain 15s linear infinite;
     position: relative;
-    top: -727px;
+    top: -826px;
     /* background-color: #258b69; */
     height: 288px;
     z-index: 1;
@@ -217,6 +231,16 @@ body {
 
     100% {
         background-position: -1527px;
+    }
+}
+@keyframes movebgCiudad {
+    0% {
+        background-position: 0px;
+        /* Ajustar también para el mar */
+    }
+
+    100% {
+        background-position: -1332px;
     }
 }
 
@@ -330,7 +354,7 @@ body {
     height: 76px;
     background: url(images/selma_enemigo1.png) no-repeat;
     z-index: 30;
-    top: 420px;
+    top: 470px!important;
     border-radius: 5%;
     animation: enemigo 10s linear infinite, caminarSelma 0.5s steps(5) infinite;
 }
@@ -467,7 +491,7 @@ body {
     /* Ajusta según el tamaño del sprite */
     background: url("images/abuelo_enemigo.png") no-repeat;
     z-index: 30;
-    top: 425px;
+    top: 470px!important;
     border-radius: 5%;
     animation: abueloAnimacion 10s linear infinite, caminarAbuelo 0.5s steps(4) infinite;
 }
@@ -480,7 +504,7 @@ body {
     /* Ajusta según el tamaño del sprite */
     background: url("images/pajaro.png") no-repeat;
     z-index: 30;
-    top: 370px;
+    top: 410px!important;
     border-radius: 5%;
     animation: pajaroAnimacion 10s linear infinite, volarPajaro 0.5s steps(6) infinite;
 }
@@ -868,6 +892,7 @@ body {
 /* Ocultar el juego al inicio */
 .container {
     display: none;
+    height: 90%;
 }
 
 /* Mostrar el juego cuando se oculta la pantalla de inicio */
@@ -1036,3 +1061,27 @@ button {
     top: 150px;
 }
 
+@font-face {
+    font-family: 'Calculator';
+    src: url('font/calculator.ttf') format('truetype');
+}
+
+#puntos-valor {
+    font-family: 'Calculator', sans-serif;
+    font-size: xx-large;
+}
+#puntos-val {
+    font-family: 'Calculator', sans-serif;
+    font-size: xx-large;
+    position: absolute;
+    top: 18px;
+    right: 54%;
+    display: flex;
+    align-items: center;
+    color: black;
+    margin: 0;
+}
+#cronometro {
+    font-family: 'Calculator', sans-serif;
+    font-size: xx-large;
+}
