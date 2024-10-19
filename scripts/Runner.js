@@ -4,8 +4,6 @@ class Runner extends Personaje {
         super();
         this.personaje = document.getElementById("personaje");
         this.corriendo = true;  // El personaje comienza corriendo
-        /* this.moverFondo(true);  // El fondo comienza a moverse */
-        /* this.cambiarAnimacionEnemigos("correr");  // Cambiar animación a correr */
         this.estaInmune = false;
         this.runnerElement = document.getElementById("personaje");
         this.balas = []; // Arreglo para almacenar las balas
@@ -18,13 +16,10 @@ class Runner extends Personaje {
     correr() {
         this.clean();
         this.personaje.classList.add("correr");
-        /*  this.moverFondo(true);  // Comenzar a mover el fondo */
-        /*  this.cambiarAnimacionEnemigos("correr");
- } */
     }
     agacharse() {
         this.personaje.classList.add("agachado");
-        this.estaAgachado = true; // Puedes usar esta variable para verificar si está agachado
+        this.estaAgachado = true;
     }
 
     levantarse() {
@@ -181,40 +176,4 @@ class Runner extends Personaje {
             rect1.bottom + margenY < rect2.top ||
             rect1.top - margenY > rect2.bottom);
     }
-    /*     moverFondo(activar) {
-            const elementosFondo = ['sky', 'clouds', 'fondoLejano', 'vereda', 'montania'];
-            elementosFondo.forEach((id) => {
-                const elem = document.getElementById(id);
-                elem.style.animationPlayState = activar ? 'running' : 'paused';
-            });
-        } */
-
-    /*   cambiarAnimacionEnemigos(estado) {
-          const enemigos = document.querySelectorAll('.enemigo');
-      
-          if (enemigos.length === 0) {
-              console.log("No hay enemigos aún. Reintentando...");
-              setTimeout(() => this.cambiarAnimacionEnemigos(estado), 1000);
-              return;
-          }
-      
-          enemigos.forEach((enemigo) => {
-              cancelAnimationFrame(enemigo.movementFrame); 
-              const computedStyle = getComputedStyle(enemigo);
-              const currentPosition = parseFloat(computedStyle.left); 
-              let velocidad = estado === "correr" ? 4 : 2;
-      
-              const moverEnemigo = () => {
-                  const nuevaPosicion = parseFloat(enemigo.style.left || currentPosition) - velocidad;
-                  enemigo.style.left = `${nuevaPosicion}px`;
-                  if (nuevaPosicion <= -enemigo.offsetWidth) {
-                      enemigo.style.left = `${window.innerWidth}px`;
-                  }
-                  enemigo.movementFrame = requestAnimationFrame(moverEnemigo);
-              };
-      
-              moverEnemigo();  
-              enemigo.style.animation = `caminarSelma 1s steps(5) infinite`;
-          });
-      } */
 }
