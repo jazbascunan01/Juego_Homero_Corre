@@ -18,6 +18,7 @@ class Runner extends Personaje {
         this.personaje.classList.add("correr");
     }
     agacharse() {
+        this.personaje.classList.remove("saltar", "caer");
         this.personaje.classList.add("agachado");
         this.estaAgachado = true;
     }
@@ -25,6 +26,7 @@ class Runner extends Personaje {
     levantarse() {
         this.personaje.classList.remove("agachado");
         this.estaAgachado = false;
+        this.correr();
     }
     saltar() {
         if (!this.personaje.classList.contains("saltar") && !this.personaje.classList.contains("caer")) {
