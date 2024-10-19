@@ -29,7 +29,7 @@ function manejarTeclas(event) {
         if (event.key === 'ArrowUp') {
             runner.saltar();
         }
-        if (event.code === "Space" && puedeDisparar) {
+        if (event.code === "Space" && puedeDisparar && enemigoLejos()) {
             puedeDisparar = false;
             runner.disparar();
             document.getElementById("personaje").classList.add("disparando");
@@ -77,6 +77,26 @@ function manejarTeclas(event) {
         }
     }
 
+}
+// Función para verificar si el enemigo más cercano está lejos
+function enemigoLejos() {
+    const distanciaMinimaParaDisparar = 300; // Define la distancia mínima para poder disparar
+    let enemigoMasCercano = null;
+    let distanciaMasCorta = Infinity;
+
+    enemigos.forEach(enemigo => {
+        let posEnemigo = enemigo.status();
+        let posRunner = runner.status();
+        let distancia = posEnemigo.left - posRunner.right; // Calcular distancia en el eje horizontal
+
+        if (distancia > 0 && distancia < distanciaMasCorta) {
+            distanciaMasCorta = distancia;
+            enemigoMasCercano = enemigo;
+        }
+    });
+
+    // Retorna true si no hay enemigos cercanos o si la distancia más corta es mayor que la mínima requerida
+    return enemigoMasCercano === null || distanciaMasCorta > distanciaMinimaParaDisparar;
 }
 // Al iniciar el juego
 agregarEventosPersonaje();
