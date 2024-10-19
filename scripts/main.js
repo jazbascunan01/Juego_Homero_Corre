@@ -62,6 +62,9 @@ function manejarTeclas(event) {
         if (event.key === 'ArrowDown') {
             runner.agacharse();
         }
+        if (event.key === 'a' || event.key === 'A') {
+            runner.puno();
+        }
     }
     if (event.type === 'keyup') {
         if (event.code === "Space") {

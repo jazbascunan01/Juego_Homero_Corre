@@ -1001,7 +1001,21 @@ button {
         /* Mover 12 fotogramas de 100px cada uno */
     }
 }
+#personaje.puno {
+    background: url("images/puñetazo.png");
+    width: 102px; /* Ajusta el tamaño según tu sprite */
+    height: 96px; /* Ajusta el tamaño según tu sprite */
+    animation: animacionPuno 0.3s steps(4) 1; /* 4 fotogramas, 0.4s de duración */
+}
 
+@keyframes animacionPuno {
+    from {
+        background-position: 0;
+    }
+    to {
+        background-position: -408px; /* 4 fotogramas * 128px */
+    }
+}
 #contador-disparo {
     position: absolute;
     top: 50px;

@@ -86,10 +86,7 @@ class Runner extends Personaje {
     }
 
     clean() {
-        this.personaje.classList.remove("correr");
-        this.personaje.classList.remove("saltar");
-        this.personaje.classList.remove("caer");
-        //this.personaje.style.background = ""; // Elimina la imagen de fondo
+        this.personaje.classList.remove("correr", "saltar", "caer", "puno", "agachado");
         this.personaje.removeEventListener("animationend", () => { });
     }
     // Método para disparar
@@ -141,7 +138,49 @@ class Runner extends Personaje {
             rect1.bottom < rect2.top ||
             rect1.top > rect2.bottom);
     }
+    // Método para atacar con un puñetazo
+    puno() {
+        this.clean();
+        this.personaje.classList.add("puno");
 
+        // Verificar colisiones con enemigos
+        this.verificarColisionConEnemigos();
+
+        // Remover cualquier event listener existente para evitar acumulaciones
+        const onAnimationEnd = () => {
+            this.personaje.removeEventListener("animationend", onAnimationEnd);
+            this.personaje.classList.remove("puno"); // Remover la clase del puñetazo
+            this.correr(); // Regresa a la animación de correr una vez que termina el puñetazo
+        };
+
+        // Agregar el listener para manejar el final de la animación
+        this.personaje.addEventListener("animationend", onAnimationEnd);
+    }
+    // Verificar colisiones con enemigos durante el puñetazo
+    verificarColisionConEnemigos() {
+        const enemigos = document.querySelectorAll(".enemigo, .abuelo, .muerte");
+        const runnerRect = this.status();
+
+        // Definir márgenes adicionales para la detección del puñetazo
+        const margenExtraX = 30; // Añadir 20 píxeles a los lados del área de colisión
+        const margenExtraY = 30; // Añadir 10 píxeles arriba y abajo del área de colisión
+
+        enemigos.forEach((enemigo) => {
+            const enemigoRect = enemigo.getBoundingClientRect();
+            // Ampliar el área de colisión del puñetazo
+            if (this.detectarColisionAmpliada(runnerRect, enemigoRect, margenExtraX, margenExtraY)) {
+                eliminarEnemigo(enemigo); // Pasar el enemigo específico a eliminar
+                console.log("Enemigo eliminado por el puñetazo");
+            }
+        });
+    }
+    // Método para detectar colisiones con márgenes adicionales
+    detectarColisionAmpliada(rect1, rect2, margenX, margenY) {
+        return !(rect1.right + margenX < rect2.left ||
+            rect1.left - margenX > rect2.right ||
+            rect1.bottom + margenY < rect2.top ||
+            rect1.top - margenY > rect2.bottom);
+    }
     /*     moverFondo(activar) {
             const elementosFondo = ['sky', 'clouds', 'fondoLejano', 'vereda', 'montania'];
             elementosFondo.forEach((id) => {
