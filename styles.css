@@ -909,7 +909,7 @@ button {
 .modal {
     display: none;
     position: fixed;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #2C3E50;
@@ -921,7 +921,7 @@ button {
     border-radius: 10px;
     text-align: left;
     font-family: Arial, sans-serif;
-    height: 80%;
+    height: 70%;
     overflow: hidden;
 }
 
