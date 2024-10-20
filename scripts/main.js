@@ -669,3 +669,34 @@ window.addEventListener('click', function (event) {
         modal.classList.add('oculto');
     }
 });
+// Obtener los elementos de los botones
+const btnNuevoJuego = document.getElementById("nav-nuevo-juego");
+
+// Agregar evento click al botón "Nuevo Juego"
+btnNuevoJuego.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+    const pantallaInicio = document.getElementById("pantalla-inicio");
+    const containerJuego = document.getElementById("container");
+    // Ocultar la pantalla de inicio
+    pantallaInicio.style.display = "none";
+    // Mostrar el contenedor del juego
+    containerJuego.style.display = "block";
+    iniciarJuego();
+
+    reiniciarJuego(); // Llama a la función para reiniciar el juego
+});
+
+// Función para recargar la página
+function recargarPagina() {
+    location.reload(); // Recargar la página
+}
+
+// Obtener el botón de "Inicio"
+const btnInicio = document.getElementById("nav-inicio");
+
+// Asignar el evento para recargar la página
+btnInicio.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+    recargarPagina(); // Llama a la función para recargar la página
+});
