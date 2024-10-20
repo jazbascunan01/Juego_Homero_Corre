@@ -134,6 +134,7 @@ function actualizarBarraDeVidas() {
 function detenerJuego() {
     clearInterval(intervalGameLoop);
     clearInterval(intervalGenerarEnemigo);
+    clearInterval(intervalGenerarObjeto); // Detener la generación de objetos
     juegoActivo = false;
 
     // Mostrar cartel de "Perdiste"
@@ -142,8 +143,16 @@ function detenerJuego() {
 
     document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
     quitarEventosPersonaje();
+        // Eliminar todos los bonus existentes de la pantalla
+        eliminarBonus();
 }
-
+// Función para eliminar todos los bonus de la pantalla
+function eliminarBonus() {
+    const bonusItems = document.querySelectorAll('.bonus-item'); // Selecciona todos los elementos con la clase 'bonus-item'
+    bonusItems.forEach(bonus => {
+        bonus.remove(); // Elimina cada bonus del DOM
+    });
+}
 // Función para reiniciar el juego
 function reiniciarJuego() {
     // Reiniciar variables
