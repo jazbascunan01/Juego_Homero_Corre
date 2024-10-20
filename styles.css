@@ -486,9 +486,7 @@ body {
 .abuelo {
     position: absolute;
     width: 45px;
-    /* Ajusta según el tamaño del sprite */
     height: 76px;
-    /* Ajusta según el tamaño del sprite */
     background: url("images/abuelo_enemigo.png") no-repeat;
     z-index: 30;
     top: 470px!important;
@@ -499,9 +497,7 @@ body {
 .pajaro {
     position: absolute;
     width: 35px;
-    /* Ajusta según el tamaño del sprite */
     height: 76px;
-    /* Ajusta según el tamaño del sprite */
     background: url("images/pajaro.png") no-repeat;
     z-index: 30;
     top: 410px!important;
@@ -511,9 +507,7 @@ body {
 .muerte {
     position: absolute;
     width: 120px;
-    /* Ajusta según el tamaño del sprite */
     height: 76px;
-    /* Ajusta según el tamaño del sprite */
     background: url("images/muerte1.png") no-repeat;
     z-index: 30;
     top: 400px;
@@ -613,7 +607,6 @@ body {
     background-image: url("images/taco.png");
     /* Ruta de la imagen del taco */
     background-size: cover;
-    /* Ajustar la imagen para que cubra el contenedor */
     position: absolute;
     /* Posición absoluta para poder mover el taco */
     z-index: 35;
@@ -741,7 +734,6 @@ body {
     width: 120%;
     background-size: 1527px 100% !important;
     background: url('images/bg.jpg') repeat-x;
-    /* Asegúrate de tener un fondo de nubes */
     animation: moverCielo 15s linear infinite;
     background-size: cover;
     z-index: 1;
@@ -757,7 +749,6 @@ body {
     animation: moverCielo 15s linear infinite;
     opacity: 1;
     background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x;
-    /* Asegúrate de tener un fondo de nubes */
     background-size: cover;
     z-index: 1;
 }
@@ -771,7 +762,6 @@ body {
     animation: moverCielo2 20s linear infinite;
     opacity: 1;
     background: url('images/Mesa\ de\ trabajo\ nubes.png') repeat-x;
-    /* Asegúrate de tener un fondo de nubes */
     background-size: cover;
     z-index: 1;
 }
@@ -780,11 +770,9 @@ body {
 #texto {
     position: absolute;
     top: 40%;
-    /* Ajusta la posición según necesites */
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    /* Asegúrate de que esté encima de todo */
     text-align: center;
     /* Centrar el texto */
 }
@@ -865,7 +853,6 @@ body {
     top: 200px;
     position: relative;
     z-index: 15;
-    /* Elevar el z-index para que los botones estén siempre visibles */
 }
 
 .boton {
@@ -1002,9 +989,7 @@ button {
 .bala {
     position: absolute;
     width: 20px;
-    /* Ajusta el tamaño según sea necesario */
     height: 10px;
-    /* Ajusta el tamaño según sea necesario */
     background: url('images/bala.png') no-repeat center center;
     background-size: contain;
     z-index: 10;
@@ -1029,8 +1014,8 @@ button {
 }
 #personaje.puno {
     background: url("images/puñetazo.png");
-    width: 102px; /* Ajusta el tamaño según tu sprite */
-    height: 96px; /* Ajusta el tamaño según tu sprite */
+    width: 102px;
+    height: 96px;
     animation: animacionPuno 0.3s steps(4) 1; /* 4 fotogramas, 0.4s de duración */
 }
 
@@ -1094,8 +1079,8 @@ button {
     width: 100%;
     z-index: 1000;
     padding: 15px 0;
-    font-family: 'Comic Sans MS', sans-serif; /* Tipografía más caricaturesca */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+    font-family: 'Comic Sans MS', sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
     border-bottom: 3px solid #ff4081;
     margin-bottom: 2% !important;
 }
@@ -1126,8 +1111,8 @@ button {
 
 /* Efecto al pasar el cursor */
 .navbar-menu a:hover {
-    background-color: #ff4081; /* Azul típico de la serie */
-    color: #FFD90F; /* Cambia el texto a amarillo */
+    background-color: #ff4081;
+    color: #FFD90F; 
 }
 
 /* Estilo para la opción activa */
