@@ -160,7 +160,6 @@ function detectarColisionConEnemigo(enemigo) {
 
 
 let ultimoTiempoGeneracion = Date.now(); // Marca de tiempo de la última generación
-//const tiempoMinimoGeneracion = 3000;  // Aumenté el tiempo mínimo a 4 segundos
 let distanciaMinima = 1000;
 
 function generarEnemigo() {
@@ -227,14 +226,14 @@ function crearNuevoEnemigo() {
 agregarEventosPersonaje();
 
 let vidas = 3;
-let puntos = 0; // Añadimos puntos para el sistema futuro
+let puntos = 0;
 let maxEnemigosEnPantalla = 6;  // Máximo de enemigos en pantalla
 let juegoActivo = false; // Para saber si el juego está activo
 
 let intervalGameLoop = setInterval(gameLoop, 50);
 let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
-let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos (en milisegundos)
-let tiempoReduccion = 200;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
+let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos
+let tiempoReduccion = 200;  // Reducción del tiempo de generación en cada actualización
 let tiempoMinimoLimite = 900;
 // Función para actualizar la barra de vidas
 function actualizarBarraDeVidas() {
@@ -365,7 +364,7 @@ function gameLoop() {
 
 
 let incrementoVelocidad = 0.1;  // La cantidad en que aumentará la velocidad
-let intervaloAumentoVelocidad = 5000; // Cada cuánto tiempo aumentará la velocidad (en milisegundos)
+let intervaloAumentoVelocidad = 5000; // Cada cuánto tiempo aumentará la velocidad
 
 // Función para aumentar la velocidad del juego
 function aumentarVelocidadJuego() {
@@ -565,7 +564,7 @@ function detectarColisionConTaco(taco) {
             posRunner.bottom > (posTaco.top + margenColisionTacoY)
         ) {
             // Homero ha recogido el taco
-            tiempoRestante += 30; // Incrementar el tiempo en 5 segundos
+            tiempoRestante += 20; // Incrementar el tiempo en 20 segundos
             actualizarCronometro(); // Actualizar el cronómetro
             taco.taco.remove(); // Eliminar el taco
             puntosSistema.aumentar(20);
@@ -642,13 +641,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Aquí puedes agregar cualquier lógica que necesites para el inicio
     const pantallaInicio = document.getElementById('pantalla-inicio');
-
-    // Podrías ocultar la pantalla de inicio después de un tiempo o un evento
     setTimeout(() => {
         pantallaInicio.classList.add('oculto');
-    }, 10000); // Cambia 10000 por el tiempo que desees (en milisegundos)
+    }, 10000);
 });
 // Abrir modal
 document.getElementById('btn-como-jugar').addEventListener('click', function () {
