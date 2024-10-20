@@ -1141,3 +1141,6 @@ button {
     justify-content: space-around;
     width: 100%;
 }
+a{
+    cursor: url("images/pointer.png"), auto;
+}
