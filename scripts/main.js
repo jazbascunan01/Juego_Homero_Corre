@@ -1,11 +1,16 @@
 "use strict";
+// Inicialización de variables
 let enemigos = [];
 let runner = new Runner();
 runner.correr();
 let puedeDisparar = true;  // Variable para controlar si el personaje puede disparar
 const puntosSistema = new Puntos(); // Instancia de la clase Puntos
 
-// Funciones para manejar los event listeners
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|              EVENT LISTENERS             |*/
+/*|                                          |*/
+/*|__________________________________________|*/
 function agregarEventosPersonaje() {
     document.addEventListener('keydown', manejarTeclas);
     document.addEventListener('keyup', manejarTeclas);
@@ -14,12 +19,6 @@ function agregarEventosPersonaje() {
 function quitarEventosPersonaje() {
     document.removeEventListener('keydown', manejarTeclas);
     document.removeEventListener('keyup', manejarTeclas);
-}
-function eliminarEnemigo() {
-    enemigos.forEach((enemigo, index) => {
-        enemigos.splice(index, 1);
-        enemigo.enemigo.remove();
-    });
 }
 // Función para manejar los eventos de teclado
 function manejarTeclas(event) {
@@ -78,9 +77,22 @@ function manejarTeclas(event) {
     }
 
 }
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|               ENEMIGOS                   |*/
+/*|                                          |*/
+/*|__________________________________________|*/
+
+function eliminarEnemigo() {
+    enemigos.forEach((enemigo, index) => {
+        enemigos.splice(index, 1);
+        enemigo.enemigo.remove();
+    });
+}
+
 // Función para verificar si el enemigo más cercano está lejos
 function enemigoLejos() {
-    const distanciaMinimaParaDisparar = 300; // Define la distancia mínima para poder disparar
+    const distanciaMinimaParaDisparar = 300; // Se define la distancia mínima para poder disparar
     let enemigoMasCercano = null;
     let distanciaMasCorta = Infinity;
 
@@ -98,123 +110,6 @@ function enemigoLejos() {
     // Retorna true si no hay enemigos cercanos o si la distancia más corta es mayor que la mínima requerida
     return enemigoMasCercano === null || distanciaMasCorta > distanciaMinimaParaDisparar;
 }
-// Al iniciar el juego
-agregarEventosPersonaje();
-
-let vidas = 3;
-let puntos = 0; // Añadimos puntos para el sistema futuro
-let maxEnemigosEnPantalla = 6;  // Máximo de enemigos en pantalla
-let juegoActivo = false; // Para saber si el juego está activo
-
-let intervalGameLoop = setInterval(gameLoop, 50);
-let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
-let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos (en milisegundos)
-let tiempoReduccion = 200;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
-let tiempoMinimoLimite = 900;
-// Función para actualizar la barra de vidas
-function actualizarBarraDeVidas() {
-    const barraVidas = document.getElementById("vidas");
-    switch (vidas) {
-        case 3:
-            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_lleno.png")';
-            break;
-        case 2:
-            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_lleno-3.png")';
-            break;
-        case 1:
-            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_mitad-2.png")';
-            break;
-        case 0:
-            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_mitad-6.png")';
-            break;
-    }
-}
-
-// Función para detener el juego
-function detenerJuego() {
-    clearInterval(intervalGameLoop);
-    clearInterval(intervalGenerarEnemigo);
-    clearInterval(intervalGenerarObjeto); // Detener la generación de objetos
-    juegoActivo = false;
-
-    // Mostrar cartel de "Perdiste"
-    const cartelPerdiste = document.getElementById("cartel-perdiste");
-    cartelPerdiste.classList.add("visible");
-
-    document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
-    quitarEventosPersonaje();
-        // Eliminar todos los bonus existentes de la pantalla
-        eliminarBonus();
-}
-// Función para eliminar todos los bonus de la pantalla
-function eliminarBonus() {
-    const bonusItems = document.querySelectorAll('.bonus-item'); // Selecciona todos los elementos con la clase 'bonus-item'
-    bonusItems.forEach(bonus => {
-        bonus.remove(); // Elimina cada bonus del DOM
-    });
-}
-// Función para reiniciar el juego
-function reiniciarJuego() {
-    // Reiniciar variables
-    vidas = 3;
-    puntosSistema.puntos = 0;  // Reiniciar puntos
-    juegoActivo = true;
-
-    // Ocultar cartel de "Perdiste"
-    const cartelPerdiste = document.getElementById("cartel-perdiste");
-    cartelPerdiste.classList.remove("visible");
-
-    // Reiniciar barra de vidas
-    actualizarBarraDeVidas();
-
-    // Limpiar enemigos de pantalla
-    enemigos.forEach(enemigo => enemigo.enemigo.remove());
-    enemigos = [];
-
-    // Reiniciar bucles
-    intervalGameLoop = setInterval(gameLoop, 50);
-    intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
-    agregarEventosPersonaje();
-}
-
-// Añadimos evento al botón de reiniciar
-document.getElementById("btn-reiniciar").addEventListener("click", reiniciarJuego);
-let intervalSumarPuntosPorTiempo = setInterval(sumarPuntosPorTiempo, 1000); // Sumar puntos cada segundo
-
-function sumarPuntosPorTiempo() {
-    if (!juegoActivo) return;
-
-    puntosSistema.aumentar(1);  // Añadir 1 punto por cada segundo
-    console.log("Puntos por tiempo: " + puntosSistema.puntos);
-}
-function gameLoop() {
-    if (!juegoActivo) return;
-
-    // Inicializar el estado de colisión
-    let haColisionado = false;
-
-    enemigos.forEach((enemigo, index) => {
-        // Detectar colisiones con el enemigo
-        if (detectarColisionConEnemigo(enemigo)) {
-            haColisionado = true; // Marcar que hubo colisión
-        }
-
-        let posEnemigo = enemigo.status();
-
-        // Si el enemigo sale de la pantalla
-        if (posEnemigo.right < 0) {
-            // Solo sumar puntos si no hubo colisión
-            if (!enemigo.haChocado && !haColisionado) {
-                puntosSistema.aumentar(10);  // Añadir puntos solo si no hubo colisión
-                console.log("¡Puntos por esquivar enemigo!");
-            }
-            // Eliminar el enemigo del array y del DOM
-            enemigos.splice(index, 1);
-            enemigo.enemigo.remove();
-        }
-    });
-}
-
 function detectarColisionConEnemigo(enemigo) {
     let posEnemigo = enemigo.status();
     let posRunner = runner.status();
@@ -301,6 +196,174 @@ function generarEnemigo() {
         }
     }
 }
+function crearNuevoEnemigo() {
+    let ultimoEnemigo = enemigos[enemigos.length - 1];
+
+    // Verificar si el último enemigo está lo suficientemente lejos antes de crear uno nuevo
+    if (ultimoEnemigo) {
+        let posUltimoEnemigo = ultimoEnemigo.status();
+        if (posUltimoEnemigo.right > window.innerWidth - distanciaMinima) {
+            console.log("El último enemigo está demasiado cerca. No se generará otro.");
+            return;  // No generar enemigo si están demasiado cerca
+        }
+    }
+
+    // Seleccionar aleatoriamente el tipo de enemigo
+    const tiposEnemigo = ['selma', 'abuelo', 'pajaro', 'muerte'];
+    const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
+
+    // Crear el nuevo enemigo si la distancia es suficiente
+    let enemigo = new Enemigo(tipoEnemigo);
+    enemigo.haChocado = false;
+    enemigos.push(enemigo);
+    document.getElementById("contenedor").appendChild(enemigo.enemigo);
+}
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|                JUEGO                     |*/
+/*|                                          |*/
+/*|__________________________________________|*/
+// Al iniciar el juego
+agregarEventosPersonaje();
+
+let vidas = 3;
+let puntos = 0; // Añadimos puntos para el sistema futuro
+let maxEnemigosEnPantalla = 6;  // Máximo de enemigos en pantalla
+let juegoActivo = false; // Para saber si el juego está activo
+
+let intervalGameLoop = setInterval(gameLoop, 50);
+let intervalGenerarEnemigo = setInterval(generarEnemigo, 6000);
+let tiempoMinimoGeneracion = 6000;  // Tiempo inicial de generación de enemigos (en milisegundos)
+let tiempoReduccion = 200;  // Reducción del tiempo de generación en cada actualización (en milisegundos)
+let tiempoMinimoLimite = 900;
+// Función para actualizar la barra de vidas
+function actualizarBarraDeVidas() {
+    const barraVidas = document.getElementById("vidas");
+    switch (vidas) {
+        case 3:
+            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_lleno.png")';
+            break;
+        case 2:
+            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_lleno-3.png")';
+            break;
+        case 1:
+            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_mitad-2.png")';
+            break;
+        case 0:
+            barraVidas.style.backgroundImage = 'url("images/barras\ de\ estado_mitad-6.png")';
+            break;
+    }
+}
+
+// Función para detener el juego
+function detenerJuego() {
+    clearInterval(intervalGameLoop);  // Detener el loop del juego
+    clearInterval(intervalGenerarEnemigo);  // Detener la generación de enemigos
+    juegoActivo = false;
+
+    // Mostrar cartel de "Perdiste"
+    const cartelPerdiste = document.getElementById("cartel-perdiste");
+    cartelPerdiste.classList.add("visible");
+
+    // Pausar todas las animaciones del contenedor y los personajes
+    const contenedor = document.getElementById("container");
+    contenedor.classList.add("pausado");
+    const personaje = document.getElementById("personaje");
+    personaje.classList.add("pausado");
+
+    // Pausar todos los enemigos y eliminarlos
+    enemigos.forEach(enemigo => enemigo.enemigo.remove());
+    enemigos = [];  // Limpiar el array de enemigos
+
+    // Mostrar los puntos finales
+    document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
+}
+// Función para eliminar todos los bonus de la pantalla
+function eliminarBonus() {
+    const bonusItems = document.querySelectorAll('.bonus-item'); // Selecciona todos los elementos con la clase 'bonus-item'
+    bonusItems.forEach(bonus => {
+        bonus.remove(); // Elimina cada bonus del DOM
+    });
+}
+function reiniciarJuego() {
+    // Reiniciar variables
+    vidas = 3;
+    puntosSistema.puntos = 0;  // Reiniciar puntos
+    juegoActivo = true;
+    // Actualizar visualmente los puntos en la pantalla
+    document.getElementById("puntos-valor").textContent = puntosSistema.puntos;
+    // Limpiar el intervalo del cronómetro si existe
+    clearInterval(intervalCronometro);
+    // Ocultar cartel de "Perdiste"
+    const cartelPerdiste = document.getElementById("cartel-perdiste");
+    cartelPerdiste.classList.remove("visible");
+
+    // Reiniciar barra de vidas
+    actualizarBarraDeVidas();
+
+    // Limpiar enemigos de pantalla
+    enemigos.forEach(enemigo => enemigo.enemigo.remove());
+    enemigos = [];
+
+    // Reiniciar bucles
+    intervalGameLoop = setInterval(gameLoop, 50);
+    intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
+
+    // Quitar pausa de las animaciones
+    const contenedor = document.getElementById("container");
+    contenedor.classList.remove("pausado");
+
+    // Reiniciar cronómetro
+    tiempoRestante = 30;
+    document.getElementById("imagen-cronometro").src = "images/30seg.png";
+    document.getElementById("tiempo-restante").textContent = tiempoRestante;
+    intervalCronometro = setInterval(actualizarCronometro, 1000);
+}
+
+// Añadimos evento al botón de reiniciar
+document.getElementById("btn-reiniciar").addEventListener("click", reiniciarJuego);
+let intervalSumarPuntosPorTiempo = setInterval(sumarPuntosPorTiempo, 1000); // Sumar puntos cada segundo
+
+function sumarPuntosPorTiempo() {
+    if (!juegoActivo) return;
+
+    puntosSistema.aumentar(1);  // Añadir 1 punto por cada segundo
+    console.log("Puntos por tiempo: " + puntosSistema.puntos);
+}
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|             FUNCIÓN GAME LOOP            |*/
+/*|                                          |*/
+/*|__________________________________________|*/
+function gameLoop() {
+    if (!juegoActivo) return;
+
+    // Inicializar el estado de colisión
+    let haColisionado = false;
+
+    enemigos.forEach((enemigo, index) => {
+        // Detectar colisiones con el enemigo
+        if (detectarColisionConEnemigo(enemigo)) {
+            haColisionado = true; // Marcar que hubo colisión
+        }
+
+        let posEnemigo = enemigo.status();
+
+        // Si el enemigo sale de la pantalla
+        if (posEnemigo.right < 0) {
+            // Solo sumar puntos si no hubo colisión
+            if (!enemigo.haChocado && !haColisionado) {
+                puntosSistema.aumentar(10);  // Añadir puntos solo si no hubo colisión
+                console.log("¡Puntos por esquivar enemigo!");
+            }
+            // Eliminar el enemigo del array y del DOM
+            enemigos.splice(index, 1);
+            enemigo.enemigo.remove();
+        }
+    });
+}
+
+
 let incrementoVelocidad = 0.1;  // La cantidad en que aumentará la velocidad
 let intervaloAumentoVelocidad = 5000; // Cada cuánto tiempo aumentará la velocidad (en milisegundos)
 
@@ -348,56 +411,6 @@ function aumentarDificultad() {
         enemigo.velocidad += incrementoVelocidad;  // Incrementar la velocidad
     });
 }
-
-
-function crearNuevoEnemigo() {
-    let ultimoEnemigo = enemigos[enemigos.length - 1];
-
-    // Verificar si el último enemigo está lo suficientemente lejos antes de crear uno nuevo
-    if (ultimoEnemigo) {
-        let posUltimoEnemigo = ultimoEnemigo.status();
-        if (posUltimoEnemigo.right > window.innerWidth - distanciaMinima) {
-            console.log("El último enemigo está demasiado cerca. No se generará otro.");
-            return;  // No generar enemigo si están demasiado cerca
-        }
-    }
-
-    // Seleccionar aleatoriamente el tipo de enemigo
-    const tiposEnemigo = ['selma', 'abuelo', 'pajaro', 'muerte'];
-    const tipoEnemigo = tiposEnemigo[Math.floor(Math.random() * tiposEnemigo.length)];
-
-    // Crear el nuevo enemigo si la distancia es suficiente
-    let enemigo = new Enemigo(tipoEnemigo);
-    enemigo.haChocado = false;
-    enemigos.push(enemigo);
-    document.getElementById("contenedor").appendChild(enemigo.enemigo);
-}
-
-
-function detenerJuego() {
-    clearInterval(intervalGameLoop);  // Detener el loop del juego
-    clearInterval(intervalGenerarEnemigo);  // Detener la generación de enemigos
-    juegoActivo = false;
-
-    // Mostrar cartel de "Perdiste"
-    const cartelPerdiste = document.getElementById("cartel-perdiste");
-    cartelPerdiste.classList.add("visible");
-
-    // Pausar todas las animaciones del contenedor y los personajes
-    const contenedor = document.getElementById("container");
-    contenedor.classList.add("pausado");
-    const personaje = document.getElementById("personaje");
-    personaje.classList.add("pausado");
-
-    // Pausar todos los enemigos y eliminarlos
-    enemigos.forEach(enemigo => enemigo.enemigo.remove());
-    enemigos = [];  // Limpiar el array de enemigos
-
-    // Mostrar los puntos finales
-    document.getElementById("puntos-finales").textContent = `Puntos: ${puntosSistema.puntos}`;
-}
-
-
 // Función para iniciar el juego
 function iniciarJuego() {
     if (juegoActivo) return;  // No iniciar el juego si ya está activo
@@ -419,41 +432,12 @@ function iniciarJuego() {
     document.getElementById("puntos-valor").textContent = puntosSistema.puntos;
 }
 
-function reiniciarJuego() {
-    // Reiniciar variables
-    vidas = 3;
-    puntosSistema.puntos = 0;  // Reiniciar puntos
-    juegoActivo = true;
-    // Actualizar visualmente los puntos en la pantalla
-    document.getElementById("puntos-valor").textContent = puntosSistema.puntos;
-    // Limpiar el intervalo del cronómetro si existe
-    clearInterval(intervalCronometro);
-    // Ocultar cartel de "Perdiste"
-    const cartelPerdiste = document.getElementById("cartel-perdiste");
-    cartelPerdiste.classList.remove("visible");
 
-    // Reiniciar barra de vidas
-    actualizarBarraDeVidas();
-
-    // Limpiar enemigos de pantalla
-    enemigos.forEach(enemigo => enemigo.enemigo.remove());
-    enemigos = [];
-
-    // Reiniciar bucles
-    intervalGameLoop = setInterval(gameLoop, 50);
-    intervalGenerarEnemigo = setInterval(generarEnemigo, 5000);
-
-    // Quitar pausa de las animaciones
-    const contenedor = document.getElementById("container");
-    contenedor.classList.remove("pausado");
-
-    // Reiniciar cronómetro
-    tiempoRestante = 30;
-    document.getElementById("imagen-cronometro").src = "images/30seg.png";
-    document.getElementById("tiempo-restante").textContent = tiempoRestante;
-    intervalCronometro = setInterval(actualizarCronometro, 1000);
-}
-
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|                    BONUS                 |*/
+/*|                                          |*/
+/*|__________________________________________|*/
 let intervalGenerarObjeto = setInterval(generarObjetoAleatorio, 10000); // Generar un objeto cada 10 segundos
 function generarObjetoAleatorio() {
     if (!juegoActivo) return;
@@ -556,41 +540,6 @@ function detectarColisionConDona(dona) {
 
     verificarColision();
 }
-
-/* CRONOMETRO */
-// Variables para el temporizador
-let tiempoRestante = 30;
-let intervalCronometro = setInterval(actualizarCronometro, 1000);
-
-// Función para actualizar el cronómetro
-function actualizarCronometro() {
-    if (!juegoActivo) return;
-
-    tiempoRestante--;
-
-    // Actualizar la imagen del cronómetro cada 5 segundos
-    let imagenCronometro = document.getElementById("imagen-cronometro");
-    if (tiempoRestante === 25) {
-        imagenCronometro.src = "images/25seg.png";
-    } else if (tiempoRestante === 20) {
-        imagenCronometro.src = "images/20seg.png";
-    } else if (tiempoRestante === 15) {
-        imagenCronometro.src = "images/15seg.png";
-    } else if (tiempoRestante === 10) {
-        imagenCronometro.src = "images/10seg.png";
-    } else if (tiempoRestante === 5) {
-        imagenCronometro.src = "images/5seg.png";
-    } else if (tiempoRestante === 0) {
-        imagenCronometro.src = "images/0seg.png";
-        detenerJuego(); // Detener el juego cuando el tiempo llega a 0
-    } else if (tiempoRestante >= 30) {
-        imagenCronometro.src = "images/30seg.png";
-    }
-
-    // Actualizar el número de segundos en pantalla
-    document.getElementById("tiempo-restante").textContent = tiempoRestante;
-}
-
 /* TACO */
 function generarTaco() {
     if (!juegoActivo) return;
@@ -629,7 +578,50 @@ function detectarColisionConTaco(taco) {
 
     verificarColision();
 }
-/* PANTALLA INICIO */
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|                 CRONÓMETRO               |*/
+/*|                                          |*/
+/*|__________________________________________|*/
+// Variables para el temporizador
+let tiempoRestante = 30;
+let intervalCronometro = setInterval(actualizarCronometro, 1000);
+
+// Función para actualizar el cronómetro
+function actualizarCronometro() {
+    if (!juegoActivo) return;
+
+    tiempoRestante--;
+
+    // Actualizar la imagen del cronómetro cada 5 segundos
+    let imagenCronometro = document.getElementById("imagen-cronometro");
+    if (tiempoRestante === 25) {
+        imagenCronometro.src = "images/25seg.png";
+    } else if (tiempoRestante === 20) {
+        imagenCronometro.src = "images/20seg.png";
+    } else if (tiempoRestante === 15) {
+        imagenCronometro.src = "images/15seg.png";
+    } else if (tiempoRestante === 10) {
+        imagenCronometro.src = "images/10seg.png";
+    } else if (tiempoRestante === 5) {
+        imagenCronometro.src = "images/5seg.png";
+    } else if (tiempoRestante === 0) {
+        imagenCronometro.src = "images/0seg.png";
+        detenerJuego(); // Detener el juego cuando el tiempo llega a 0
+    } else if (tiempoRestante >= 30) {
+        imagenCronometro.src = "images/30seg.png";
+    }
+
+    // Actualizar el número de segundos en pantalla
+    document.getElementById("tiempo-restante").textContent = tiempoRestante;
+}
+
+
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|              PANTALLA INICIO             |*/
+/*|                                          |*/
+/*|__________________________________________|*/
 document.addEventListener("DOMContentLoaded", () => {
     const pantallaInicio = document.getElementById("pantalla-inicio");
     const containerJuego = document.getElementById("container");
@@ -678,6 +670,11 @@ window.addEventListener('click', function (event) {
         modal.classList.add('oculto');
     }
 });
+/*|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|*/
+/*|                                          |*/
+/*|                  NAV-BAR                 |*/
+/*|                                          |*/
+/*|__________________________________________|*/
 // Obtener los elementos de los botones
 const btnNuevoJuego = document.getElementById("nav-nuevo-juego");
 
