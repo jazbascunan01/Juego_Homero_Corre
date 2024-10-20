@@ -178,7 +178,6 @@ body {
     opacity: 70%;
 }
 
-/* Asegurarse de que el fondo cubra el container */
 #sky,
 #fondoLejano,
 #montania,
@@ -208,7 +207,6 @@ body {
 
     100% {
         background-position: -1289px;
-        /* Ajusta según el nuevo tamaño (1289 * 1.5 = 1933.5px) */
     }
 }
 
@@ -219,14 +217,12 @@ body {
 
     100% {
         background-position: -1592px;
-        /* Ajusta según el tamaño de la imagen */
     }
 }
 
 @keyframes movebgVereda {
     0% {
         background-position: 0px;
-        /* Ajustar también para el mar */
     }
 
     100% {
@@ -236,7 +232,6 @@ body {
 @keyframes movebgCiudad {
     0% {
         background-position: 0px;
-        /* Ajustar también para el mar */
     }
 
     100% {
