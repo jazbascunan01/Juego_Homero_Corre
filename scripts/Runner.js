@@ -3,90 +3,100 @@ class Runner extends Personaje {
     constructor() {
         super();
         this.personaje = document.getElementById("personaje");
-        this.corriendo = true;  // El personaje comienza corriendo
+        this.corriendo = true; // El personaje comienza corriendo
         this.estaInmune = false;
         this.runnerElement = document.getElementById("personaje");
         this.balas = []; // Arreglo para almacenar las balas
-    }
+    } // Fin del constructor
 
+    // Devuelve el rectángulo delimitador del personaje en la pantalla
     status() {
         return this.personaje.getBoundingClientRect();
-    }
+    } // Fin de status
 
+    // Inicia la animación de correr
     correr() {
         this.clean();
         this.personaje.classList.add("correr");
-    }
+    } // Fin de correr
+
+    // Inicia la animación de agacharse
     agacharse() {
         this.personaje.classList.remove("saltar", "caer");
         this.personaje.classList.add("agachado");
         this.estaAgachado = true;
-    }
+    } // Fin de agacharse
 
+    // Termina la animación de agacharse y vuelve a correr
     levantarse() {
         this.personaje.classList.remove("agachado");
         this.estaAgachado = false;
         this.correr();
-    }
+    } // Fin de levantarse
+
+    // Inicia la animación de salto si el personaje no está saltando ni cayendo
     saltar() {
         if (!this.personaje.classList.contains("saltar") && !this.personaje.classList.contains("caer")) {
             this.clean();
             this.personaje.classList.add("saltar");
-
             this.personaje.addEventListener("animationend", () => {
-                this.caer();
+                this.caer(); // Inicia la caída después del salto
             });
         }
-    }
+    } // Fin de saltar
 
+    // Inicia la animación de caída
     caer() {
         this.clean();
         this.personaje.classList.add("caer");
-
         this.personaje.addEventListener("animationend", () => {
-            this.correr();
+            this.correr(); // Regresa a correr después de caer
         });
-    }
+    } // Fin de caer
 
-
-
+    // Activa el efecto visual de perder vida
     efectoPerderVida() {
-        if (this.estaInmune) return; // Si el personaje es inmune, no pierde vida
+        if (this.estaInmune) return; // No pierde vida si es inmune
         this.personaje.classList.add("parpadeo");
 
-        // Después de 2 segundos, removemos el efecto de parpadeo
+        // Remueve el parpadeo después de 2 segundos
         setTimeout(() => {
             this.personaje.classList.remove("parpadeo");
         }, 2000);
-    }
+    } // Fin de efectoPerderVida
 
+    // Activa la inmunidad temporal del personaje
     efectoInmunidad() {
         if (!this.runnerElement) {
             console.error("runnerElement no está definido");
             return;
         }
 
-        if (this.estaInmune) return; // Si ya es inmune, no hacer nada
+        if (this.estaInmune) return; // No hacer nada si ya es inmune
 
-        this.estaInmune = true; // Activar la inmunidad
-        this.runnerElement.classList.add("inmunidad"); // Agregar una clase para el efecto visual (animación o brillo)
+        this.estaInmune = true;
+        this.runnerElement.classList.add("inmunidad");
 
-        // Desactivar la inmunidad después de 5 segundos
+        // Desactiva la inmunidad después de 10 segundos
         setTimeout(() => {
             this.estaInmune = false;
-            this.runnerElement.classList.remove("inmunidad"); // Quitar la clase de efecto visual
+            this.runnerElement.classList.remove("inmunidad");
         }, 10000);
-    }
+    } // Fin de efectoInmunidad
+
+    // Elimina el efecto visual de inmunidad
     quitarEfectoInmunidad() {
         if (!this.runnerElement) return;
         this.runnerElement.classList.remove("inmunidad");
-    }
+    } // Fin de quitarEfectoInmunidad
 
+    // Limpia las animaciones actuales del personaje
     clean() {
         this.personaje.classList.remove("correr", "saltar", "caer", "puno", "agachado");
         this.personaje.removeEventListener("animationend", () => { });
-    }
-    // Método para disparar
+    } // Fin de clean
+
+    // Dispara una bala desde la posición del personaje
     disparar() {
         setTimeout(() => {
             const bala = document.createElement("div");
@@ -97,9 +107,9 @@ class Runner extends Personaje {
             this.balas.push(bala);
             this.moverBala(bala);
         }, 500);
-    }
+    } // Fin de disparar
 
-    // Método para mover la bala y detectar colisiones
+    // Mueve la bala y verifica colisiones con enemigos
     moverBala(bala) {
         const velocidadBala = 10;
         const mover = () => {
@@ -118,7 +128,7 @@ class Runner extends Personaje {
                 }
             });
 
-            // Eliminar la bala si sale de la pantalla
+            // Elimina la bala si sale de la pantalla
             if (nuevaPosicion > 1300) {
                 bala.remove();
             } else {
@@ -126,56 +136,54 @@ class Runner extends Personaje {
             }
         };
         mover();
-    }
+    } // Fin de moverBala
 
-    // Función para detectar colisiones
+    // Detecta si hay colisión entre dos rectángulos
     detectarColision(rect1, rect2) {
         return !(rect1.right < rect2.left ||
-            rect1.left > rect2.right ||
-            rect1.bottom < rect2.top ||
-            rect1.top > rect2.bottom);
-    }
-    // Método para atacar con un puñetazo
+                 rect1.left > rect2.right ||
+                 rect1.bottom < rect2.top ||
+                 rect1.top > rect2.bottom);
+    } // Fin de detectarColision
+
+    // Ejecuta un puñetazo y verifica colisiones con enemigos
     puno() {
         this.clean();
         this.personaje.classList.add("puno");
-
-        // Verificar colisiones con enemigos
         this.verificarColisionConEnemigos();
 
-        // Remover cualquier event listener existente para evitar acumulaciones
+        // Listener para manejar el final de la animación del puñetazo
         const onAnimationEnd = () => {
             this.personaje.removeEventListener("animationend", onAnimationEnd);
-            this.personaje.classList.remove("puno"); // Remover la clase del puñetazo
-            this.correr(); // Regresa a la animación de correr una vez que termina el puñetazo
+            this.personaje.classList.remove("puno");
+            this.correr();
         };
 
-        // Agregar el listener para manejar el final de la animación
         this.personaje.addEventListener("animationend", onAnimationEnd);
-    }
-    // Verificar colisiones con enemigos durante el puñetazo
+    } // Fin de puno
+
+    // Verifica colisiones con enemigos durante el puñetazo
     verificarColisionConEnemigos() {
         const enemigos = document.querySelectorAll(".enemigo, .abuelo, .muerte");
         const runnerRect = this.status();
-
-        // Definir márgenes adicionales para la detección del puñetazo
-        const margenExtraX = 30; // Añadir 20 píxeles a los lados del área de colisión
-        const margenExtraY = 30; // Añadir 10 píxeles arriba y abajo del área de colisión
+        const margenExtraX = 30; // Ampliar el área de colisión en el eje X
+        const margenExtraY = 30; // Ampliar el área de colisión en el eje Y
 
         enemigos.forEach((enemigo) => {
             const enemigoRect = enemigo.getBoundingClientRect();
-            // Ampliar el área de colisión del puñetazo
             if (this.detectarColisionAmpliada(runnerRect, enemigoRect, margenExtraX, margenExtraY)) {
-                eliminarEnemigo(enemigo); // Pasar el enemigo específico a eliminar
+                eliminarEnemigo(enemigo);
                 console.log("Enemigo eliminado por el puñetazo");
             }
         });
-    }
-    // Método para detectar colisiones con márgenes adicionales
+    } // Fin de verificarColisionConEnemigos
+
+    // Detecta colisiones con márgenes adicionales
     detectarColisionAmpliada(rect1, rect2, margenX, margenY) {
         return !(rect1.right + margenX < rect2.left ||
-            rect1.left - margenX > rect2.right ||
-            rect1.bottom + margenY < rect2.top ||
-            rect1.top - margenY > rect2.bottom);
-    }
-}
+                 rect1.left - margenX > rect2.right ||
+                 rect1.bottom + margenY < rect2.top ||
+                 rect1.top - margenY > rect2.bottom);
+    } // Fin de detectarColisionAmpliada
+
+} // Fin de la clase Runner
