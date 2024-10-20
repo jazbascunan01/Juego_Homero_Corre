@@ -23,7 +23,7 @@ class Enemigo extends Personaje {
     }
 
     mover() {
-        // Aquí puedes agregar la lógica de movimiento específica del enemigo
+        
     }
 
     status() {
