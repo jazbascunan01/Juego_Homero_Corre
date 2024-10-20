@@ -1155,3 +1155,9 @@ button {
     width: 100%;
     left: 0;
 }
+.attack-items{
+    border-radius: 50%;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
